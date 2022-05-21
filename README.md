@@ -22,3 +22,15 @@
     - 구름레벨 : gl-101
     - ...
     - 위 예시에 없는 사이트는 직접 사이트 약어를 추가해주세요 😊
+
+### Slack 알람 설정 방법(개인 Repository 사용을 원하는 경우)
+
+- [notification 채널](https://algorithm-yja5199.slack.com/archives/C03FQT8Q1MM)에서
+
+  - `/github subscribe {owner}/{repository name}` 을 입력 후
+    - 깃헙에서 알람 허가 설정을 해줍니다
+  - 다시 notification 채널에서 `/github subscribe {owner}/{repository name}` 을 입력해줍니다
+  - e.g.,
+    - `/github subscribe TaehwanGo/codingTest`
+
+- [공통 레포](https://github.com/Metacognition-Polymath/algorithm)를 사용하신다면 알람설정을 하지 않으셔도 됩니다 🙂
