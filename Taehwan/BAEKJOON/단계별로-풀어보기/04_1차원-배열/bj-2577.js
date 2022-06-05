@@ -10,6 +10,7 @@
   const inputArr = require("fs")
     .readFileSync("/dev/stdin")
     .toString()
+    .trim()
     .split("\n")
     .map(Number);
   // const inputArr = [150, 266, 427];
