@@ -33,3 +33,40 @@
   // console.log(getRoomNumber(10, 6));
 }
 // 테스트 케이스는 통과 되지만 왜인지 틀렸다고 나옴
+
+{
+  // 다른 사람 풀이
+  // https://velog.io/@dragoocho/%EB%B0%B1%EC%A4%80-10250%EB%B2%88-Node.js-%EB%AC%B8%EC%A0%9C%ED%92%80%EC%9D%B4
+  const fs = require("fs");
+  const [n, ...arr] = (
+    process.platform === "linux"
+      ? fs.readFileSync("/dev/stdin").toString()
+      : `2
+6 12 10
+30 50 72`
+  )
+    .trim()
+    .split("\n");
+
+  let nArrNumber = Number(n);
+  let newArr = arr.map((e) => e.split(" "));
+  let nAnswer = "";
+
+  for (let i = 0; i < nArrNumber; i++) {
+    let H = newArr[i][0],
+      N = newArr[i][2];
+
+    let answerH = N % H;
+    if (answerH === 0) {
+      answerH = H;
+    }
+
+    let answerW = Math.ceil(N / H);
+    answerW < 10 ? (answerW = String(0) + answerW) : answerW;
+
+    nAnswer += `${answerH}${answerW}` + "\n";
+  }
+
+  console.log(nAnswer);
+}
+// 나랑 같은 방법으로 풀었다
