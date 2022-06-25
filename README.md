@@ -26,7 +26,7 @@
 
 ### Slack 알람 설정 방법(개인 Repository 사용을 원하는 경우)
 
-- [notification 채널](https://metacognition-hq.slack.com/archives/C03M573H9L3)에서
+- [algorithm 채널](https://metacognition-hq.slack.com/archives/C03M573H9L3)에서
 
   - `/github subscribe {owner}/{repository name}` 을 입력 후
     - 깃헙에서 알람 허가 설정을 해줍니다
