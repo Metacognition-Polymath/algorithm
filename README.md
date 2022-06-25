@@ -4,7 +4,8 @@
 
   - 이 레포가 아니더라도 개인의 레포에 올려도 됩니다(단, 슬랙 알람 설정을 해서 모두가 알 수 있게 해야 합니다)
 
-- 슬랙 : https://join.slack.com/t/algorithm-yja5199/shared_invite/zt-19bpfi3fo-g7SJM9P8H~8RG5sV~faKPA
+- 슬랙 : https://join.slack.com/t/metacognition-hq/shared_invite/zt-ycnqoy0h-YacPYAu67xVbU66XFVa5gQ
+  - algorithm 채널
 
 ### 스터디 룰
 
@@ -25,7 +26,7 @@
 
 ### Slack 알람 설정 방법(개인 Repository 사용을 원하는 경우)
 
-- [notification 채널](https://algorithm-yja5199.slack.com/archives/C03FQT8Q1MM)에서
+- [notification 채널](https://metacognition-hq.slack.com/archives/C03M573H9L3)에서
 
   - `/github subscribe {owner}/{repository name}` 을 입력 후
     - 깃헙에서 알람 허가 설정을 해줍니다
