@@ -15,3 +15,4 @@
   };
   console.log(factorial(N));
 }
+// 맞았습니다. 메모리 : 9592KB, 시간 : 120ms
