@@ -11,8 +11,11 @@
    * input : 3
    * output : ['1 3', '1 2', '3 2', '1 3', '2 1', '2 3', '1 3']
    */
-  // hanoitop
-  const n = 3;
+  // hanoi top
+  // const n = 3;
+  const fs = require("fs");
+  const inputNumberString = fs.readFileSync("/dev/stdin").toString().trim();
+  const n = Number(inputNumberString);
   const movedArr = [];
   const hanoi = (n, from, to, via) => {
     if (n === 1) {
