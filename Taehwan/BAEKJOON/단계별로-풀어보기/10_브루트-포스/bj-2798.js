@@ -9,22 +9,30 @@
    */
   // 전략 1: 3개씩 더하면서 구한 합을 배열에 저장, 만약 그 합이 M이라면 즉시 종료하고 리턴
   // 전략 2: 3개씩 더한 합을 모두 구하는 동안 M이랑 일치하는 것이 없다면 M과 가장 가까운 수를 찾는다
-  const input = `5 21\n5 6 7 8 9`;
-  const [N, M] = input.split("\n")[0].split(" ").map(Number);
-  const cards = input.split("\n")[1].split(" ").map(Number);
+  // const input = `5 21
+  // 5 6 7 8 9`;
+  // const input = `10 500
+  // 93 181 245 214 315 36 185 138 216 295`;
+  const fs = require("fs");
+  const input = fs.readFileSync("/dev/stdin").toString().trim();
+  const [N, M] = input.split("\n")[0].trim().split(" ").map(Number);
+  const cards = input.split("\n")[1].trim().split(" ").map(Number);
+  // console.log(cards);
   const sumArray = [];
   for (let i = 0; i < cards.length; i++) {
     for (let j = i + 1; j < cards.length; j++) {
       for (let k = j + 1; k < cards.length; k++) {
-        // if (cards[i] + cards[j] + cards[k] === M) {
-        //   console.log(cards[i] + cards[j] + cards[k]);
-        //   return;
-        // }
+        if (cards[i] + cards[j] + cards[k] > M) {
+          continue;
+        }
         sumArray.push(cards[i] + cards[j] + cards[k]);
+        if (cards[i] + cards[j] + cards[k] === M) {
+          break;
+        }
       }
     }
   }
-  console.log(sumArray);
+  // console.log(sumArray);
   // 가장 가까운 수를 찾기 : M과 각 합의 차이의 절대값이 가장 작은 것을 찾는다
   const diffArray = sumArray.map((sum) => Math.abs(M - sum));
 
@@ -32,3 +40,5 @@
   const minIndex = diffArray.indexOf(minDiff);
   console.log(sumArray[minIndex]);
 }
+
+// M 을 넘지 않는게 조건으로 있으므로 넘는 경우는 제외 해야 한다
