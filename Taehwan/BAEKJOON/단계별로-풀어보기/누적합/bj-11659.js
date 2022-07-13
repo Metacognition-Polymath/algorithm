@@ -13,12 +13,17 @@
   // 1 3
   // 2 4
   // 5 5`;
-  const numbers = [5, 4, 3, 2, 1];
-  const fromToArr = [
-    [1, 3],
-    [2, 4],
-    [5, 5],
-  ];
+  // const numbers = [5, 4, 3, 2, 1];
+  // const fromToArr = [
+  //   [1, 3],
+  //   [2, 4],
+  //   [5, 5],
+  // ];
+  const fs = require("fs");
+  const inputs = fs.readFileSync("/dev/stdin").toString().trim();
+  const [firstLine, numbersString, ...fromToArrString] = inputs.split("\n");
+  const numbers = numbersString.split(" ").map(Number);
+  const fromToArr = fromToArrString.map((item) => item.split(" ").map(Number));
 
   const getSumFromTo = (numbers, fromTo) => {
     const [from, to] = fromTo;
