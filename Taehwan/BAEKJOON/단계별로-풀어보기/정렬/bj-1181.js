@@ -6,22 +6,22 @@
     1. 길이가 짧은 것부터
     2. 길이가 같으면 사전 순으로
    */
-  //   const inputs = `13
-  // but
-  // i
-  // wont
-  // hesitate
-  // no
-  // more
-  // no
-  // more
-  // it
-  // cannot
-  // wait
-  // im
-  // yours`;
-  const fs = require("fs");
-  const inputs = fs.readFileSync("/dev/stdin").toString().trim();
+  const inputs = `13
+  but
+  i
+  wont
+  hesitate
+  no
+  more
+  no
+  more
+  it
+  cannot
+  wait
+  im
+  yours`;
+  // const fs = require("fs");
+  // const inputs = fs.readFileSync("/dev/stdin").toString().trim();
   const [N, ...words] = inputs.split("\n");
 
   // 단어를 글자 순으로 정렬
@@ -45,7 +45,7 @@
   };
 
   // 실행
-  const wordsSorted = sortWords(words);
-  const wordsUnique = uniqueWords(wordsSorted);
-  print(wordsUnique);
+  const wordsUnique = uniqueWords(words);
+  const wordsSorted = sortWords(wordsUnique);
+  print(wordsSorted);
 }
