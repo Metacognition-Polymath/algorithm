@@ -123,6 +123,7 @@ function solution(m, songs) {
     let mid = parseInt((lt + rt) / 2);
     // mid 값을 dvd한장의 용량으로 했을 때 몇장만에 구하는지를 count 함수에서 구해야 함
     if (count(songs, mid) <= m) {
+      // e.g. count() 함수의 리턴이 2인 경우 -> 용량이 충분히 크다 -> rt를 mid-1로 변경
       answer = mid;
       rt = mid - 1;
     } else {
