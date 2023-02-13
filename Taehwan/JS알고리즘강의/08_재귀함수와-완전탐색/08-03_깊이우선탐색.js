@@ -60,10 +60,10 @@ function solution(n) {
       return;
     } else {
       // 항상 재귀를 작성할 때 else에서 console을 찍어보자
-      console.log(v);
+      console.log(v); // 부모 출력하고
       // 재귀가 뻣어 나가는 지점
-      DFS(v * 2);
-      DFS(v * 2 + 1);
+      DFS(v * 2); // 왼쪽 자식으로 가고
+      DFS(v * 2 + 1); // 오른쪽 자식으로 가고
     }
   }
   DFS(n);
