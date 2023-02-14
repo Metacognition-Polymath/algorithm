@@ -20,9 +20,61 @@
  * 출력 예제
  * YES
  */
+/**
+ * @param {number[]} arr
+ */
 function solution(arr) {
-  // TODO 혼자서 풀어보기
+  let answer = "NO";
+  let total = arr.reduce((accumulated, current) => accumulated + current, 0);
+  let isFoundAnswer = false;
+  function DFS(arrIndex, sum) {
+    console.log(`arrIndex: ${arrIndex}, sum: ${sum}`);
+    if (isFoundAnswer) {
+      return;
+    }
+    if (arrIndex === arr.length) {
+      if (sum === total - sum) {
+        isFoundAnswer = true;
+        answer = "YES";
+      }
+      return;
+    } else {
+      DFS(arrIndex + 1, sum + arr[arrIndex]);
+      DFS(arrIndex + 1, sum);
+    }
+  }
+  DFS(0, 0);
+  return answer;
 }
 
 let arr = [1, 3, 5, 6, 7, 10];
 console.log(solution(arr));
+
+/**
+ * 정답 코드
+ */
+// function solution(arr) {
+//   let answer = "NO",
+//     flag = 0;
+//   let total = arr.reduce((a, b) => a + b, 0);
+//   let n = arr.length;
+//   function DFS(L, sum) {
+//     console.log(`arrIndex: ${L}, sum: ${sum}`);
+//     if (flag) return;
+//     if (L === n) {
+//       // 끝까지 다 왔을 때 검사를 해야 된다(?)
+//       if (total - sum === sum) {
+//         answer = "YES";
+//         flag = 1;
+//       }
+//     } else {
+//       DFS(L + 1, sum + arr[L]);
+//       DFS(L + 1, sum);
+//     }
+//   }
+//   DFS(0, 0);
+//   return answer;
+// }
+
+// let arr = [1, 3, 5, 6, 7, 10];
+// console.log(solution(arr));
