@@ -32,8 +32,8 @@
  * 아.. m이 2가 아닐 수도 있구나
  *
  * 재귀 + for문이라면?
- * @param {*} n
- * @param {*} m
+ * @param {number} n 1부터 n 까지
+ * @param {number} m m번 뽑기
  */
 // function solution(n, m) {
 //   let count = 0;
@@ -62,19 +62,45 @@
 // }
 
 // 강의 해설
+// function solution(n, m) {
+//   let answer = [];
+//   let temp = Array.from({ length: m }, () => 0);
+//   /**
+//    * @param {number} L level
+//    */
+//   function DFS(L) {
+//     // console.log("L", L);
+//     if (L === m) {
+//       // m : 2 ->
+//       console.log("pop");
+//       answer.push(temp.slice());
+//     } else {
+//       for (let i = 1; i <= n; i++) {
+//         console.log("L", L);
+//         console.log("i", i);
+//         temp[L] = i;
+//         DFS(L + 1);
+//       }
+//     }
+//   }
+//   DFS(0);
+//   return answer;
+// }
+
+// console.log(solution(3, 2));
+
+// 복습 - 1회차
 function solution(n, m) {
-  let answer = [];
-  let temp = Array.from({ length: m }, () => 0);
-  /**
-   * @param {number} L level
-   */
-  function DFS(L) {
-    if (L === m) {
-      answer.push(temp.slice());
+  const answer = [];
+  const tempArr = Array(m).fill(0);
+  function DFS(level) {
+    if (level === m) {
+      answer.push([...tempArr]);
+      return;
     } else {
-      for (let i = 1; i < n; i++) {
-        temp[L] = i;
-        DFS(L + 1);
+      for (let i = 1; i <= n; i++) {
+        tempArr[level] = i;
+        DFS(level + 1);
       }
     }
   }
