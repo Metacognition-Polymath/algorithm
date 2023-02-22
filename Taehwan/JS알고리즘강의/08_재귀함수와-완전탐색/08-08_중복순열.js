@@ -90,21 +90,47 @@
 // console.log(solution(3, 2));
 
 // 복습 - 1회차
+// function solution(n, m) {
+//   const answer = [];
+//   const tempArr = Array(m).fill(0);
+//   function DFS(level) {
+//     if (level === m) {
+//       answer.push([...tempArr]);
+//       return;
+//     } else {
+//       for (let i = 1; i <= n; i++) {
+//         tempArr[level] = i;
+//         DFS(level + 1);
+//       }
+//     }
+//   }
+//   DFS(0);
+//   return answer;
+// }
+
+// console.log(solution(3, 2));
+
+// 복습 2회차
+// 1부터 n까지 m번 뽑기 -> 순서대로 출력
 function solution(n, m) {
   const answer = [];
-  const tempArr = Array(m).fill(0);
-  function DFS(level) {
+
+  /**
+   * @param {number} level
+   * @param {number[]} arr
+   */
+  function DFS(level, arr) {
     if (level === m) {
-      answer.push([...tempArr]);
-      return;
+      answer.push([...arr]);
     } else {
       for (let i = 1; i <= n; i++) {
-        tempArr[level] = i;
-        DFS(level + 1);
+        arr[level] = i;
+        DFS(level + 1, arr);
       }
     }
   }
-  DFS(0);
+  DFS(0, [0, 0]);
+
   return answer;
 }
 
