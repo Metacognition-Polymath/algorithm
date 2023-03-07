@@ -47,20 +47,43 @@
 // console.log(solution(5, 3));
 
 // 메모이제이션 적용 : 이미 구한 것은 다시 구하지 말자
+// function solution(n, r) {
+//   // type dy = number[][]; // dynamic array
+//   let answer;
+//   const dy = Array.from(Array(r + 1), () => Array(n + 1).fill(0)); // 행이 r개 열이 n개인 0으로 초기화된 2차원 배열
+//   function DFS(_n, _r) {
+//     if (dy[_r][_n] > 0) return dy[_r][_n];
+//     if (_n === _r || _r === 0) return 1;
+//     else {
+//       dy[_r][_n] = DFS(_n - 1, _r - 1) + DFS(_n - 1, _r);
+//       return dy[_r][_n];
+//     }
+//   }
+//   answer = DFS(n, r);
+//   return answer;
+// }
+
+// console.log(solution(33, 19));
+
+// 복습 1회차
+// nCr = n-1Cr-1 + n-1Cr
 function solution(n, r) {
-  // type dy = number[][]; // dynamic array
-  let answer;
-  const dy = Array.from(Array(r + 1), () => Array(n + 1).fill(0)); // 행이 r개 열이 n개인 0으로 초기화된 2차원 배열
+  const cacheMap = {};
+  const getCacheMapKey = (n, r) => {
+    return `${n}_${r}`;
+  };
   function DFS(_n, _r) {
-    if (dy[_r][_n] > 0) return dy[_r][_n];
-    if (_n === _r || _r === 0) return 1;
-    else {
-      dy[_r][_n] = DFS(_n - 1, _r - 1) + DFS(_n - 1, _r);
-      return dy[_r][_n];
+    if (cacheMap[getCacheMapKey(_n, _r)] !== undefined) {
+      return cacheMap[getCacheMapKey(_n, _r)];
+    }
+    if (_n === _r || _r === 0) {
+      return 1;
+    } else {
+      cacheMap[getCacheMapKey(_n, _r)] = DFS(_n - 1, _r - 1) + DFS(_n - 1, _r);
+      return cacheMap[getCacheMapKey(_n, _r)];
     }
   }
-  answer = DFS(n, r);
-  return answer;
+  return DFS(n, r);
 }
 
 console.log(solution(33, 19));

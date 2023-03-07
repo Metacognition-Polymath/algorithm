@@ -28,16 +28,30 @@
  * D(1) => 1
  * @param {number} n
  */
+// function solution(n) {
+//   let answer = n;
+//   function DFS(num) {
+//     if (num === 1) return 1;
+//     else {
+//       return num * DFS(num - 1);
+//     }
+//   }
+//   answer = DFS(n);
+//   return answer;
+// }
+
+// console.log(solution(5));
+
+// 복습 1회차
 function solution(n) {
-  let answer = n;
   function DFS(num) {
-    if (num === 1) return 1;
-    else {
+    if (num === 1) {
+      return 1;
+    } else {
       return num * DFS(num - 1);
     }
   }
-  answer = DFS(n);
-  return answer;
+  return DFS(n);
 }
 
 console.log(solution(5));
