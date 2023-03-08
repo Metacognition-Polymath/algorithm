@@ -65,16 +65,40 @@
 
 // console.log(solution(33, 19));
 
-// 복습 1회차
+// // 복습 1회차
+// // nCr = n-1Cr-1 + n-1Cr
+// function solution(n, r) {
+//   const cacheMap = {};
+//   const getCacheMapKey = (n, r) => {
+//     return `${n}_${r}`;
+//   };
+//   function DFS(_n, _r) {
+//     if (cacheMap[getCacheMapKey(_n, _r)] !== undefined) {
+//       return cacheMap[getCacheMapKey(_n, _r)];
+//     }
+//     if (_n === _r || _r === 0) {
+//       return 1;
+//     } else {
+//       cacheMap[getCacheMapKey(_n, _r)] = DFS(_n - 1, _r - 1) + DFS(_n - 1, _r);
+//       return cacheMap[getCacheMapKey(_n, _r)];
+//     }
+//   }
+//   return DFS(n, r);
+// }
+
+// console.log(solution(33, 19));
+
+// 복습 2회차
 // nCr = n-1Cr-1 + n-1Cr
+// 끝나는 조건 n === r => 1, r === 0 => 1
 function solution(n, r) {
   const cacheMap = {};
-  const getCacheMapKey = (n, r) => {
-    return `${n}_${r}`;
-  };
-  function DFS(_n, _r) {
-    if (cacheMap[getCacheMapKey(_n, _r)] !== undefined) {
-      return cacheMap[getCacheMapKey(_n, _r)];
+  const getCacheMapKey = (n, r) => `${n}C${r}`;
+
+  const DFS = (_n, _r) => {
+    const cached = cacheMap[getCacheMapKey(_n, _r)];
+    if (cached !== undefined) {
+      return cached;
     }
     if (_n === _r || _r === 0) {
       return 1;
@@ -82,8 +106,13 @@ function solution(n, r) {
       cacheMap[getCacheMapKey(_n, _r)] = DFS(_n - 1, _r - 1) + DFS(_n - 1, _r);
       return cacheMap[getCacheMapKey(_n, _r)];
     }
-  }
-  return DFS(n, r);
+  };
+
+  const answer = DFS(n, r);
+  console.log("cacheMap", cacheMap);
+  return answer;
 }
 
 console.log(solution(33, 19));
+
+// TODO : 복습 3회차엔 팩토리얼로 답 구해보기

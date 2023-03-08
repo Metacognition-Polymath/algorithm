@@ -66,30 +66,63 @@
 // console.log(solution(2, arr));
 
 // 복습 1회차
-function solution(m, arr) {
-  let answer = [];
-  const n = arr.length;
-  const checkArr = Array.from({ length: n }, () => 0);
-  const tmpArr = Array.from({ length: m }, () => 0);
+// function solution(m, arr) {
+//   let answer = [];
+//   const n = arr.length;
+//   const checkArr = Array.from({ length: n }, () => 0);
+//   const tmpArr = Array.from({ length: m }, () => 0);
 
-  function DFS(L) {
-    if (L === m) {
-      answer.push(tmpArr.slice());
+//   function DFS(L) {
+//     if (L === m) {
+//       answer.push(tmpArr.slice());
+//     } else {
+//       for (let i = 0; i < n; i++) {
+//         if (checkArr[i] === 0) {
+//           checkArr[i] = 1;
+//           tmpArr[L] = arr[i];
+//           DFS(L + 1);
+//           checkArr[i] = 0;
+//         }
+//       }
+//     }
+//   }
+
+//   DFS(0);
+
+//   return answer;
+// }
+
+// let arr = [3, 6, 9];
+// console.log(solution(2, arr));
+
+// 복습 2회차
+// arr: number[] 에서
+// m개를 뽑는다
+function solution(m, arr) {
+  const permutations = [];
+
+  const tempArr = Array.from({ length: m }, () => 0);
+  const checkArr = Array(arr.length).fill(0); // 사용한 것
+
+  const DFS = (level) => {
+    if (level === m) {
+      permutations.push([...tempArr]);
     } else {
-      for (let i = 0; i < n; i++) {
-        if (checkArr[i] === 0) {
-          checkArr[i] = 1;
-          tmpArr[L] = arr[i];
-          DFS(L + 1);
-          checkArr[i] = 0;
+      for (let i = 0; i < arr.length; i++) {
+        if (checkArr[i] !== 0) {
+          continue;
         }
+        checkArr[i] = 1;
+        tempArr[level] = arr[i];
+        DFS(level + 1);
+        checkArr[i] = 0;
       }
     }
-  }
+  };
 
   DFS(0);
 
-  return answer;
+  return permutations;
 }
 
 let arr = [3, 6, 9];

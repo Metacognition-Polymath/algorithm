@@ -43,14 +43,28 @@
 // console.log(solution(5));
 
 // 복습 1회차
+// function solution(n) {
+//   function DFS(num) {
+//     if (num === 1) {
+//       return 1;
+//     } else {
+//       return num * DFS(num - 1);
+//     }
+//   }
+//   return DFS(n);
+// }
+
+// console.log(solution(5));
+
+// 복습 2회차
 function solution(n) {
-  function DFS(num) {
+  const DFS = (num) => {
     if (num === 1) {
       return 1;
     } else {
       return num * DFS(num - 1);
     }
-  }
+  };
   return DFS(n);
 }
 
