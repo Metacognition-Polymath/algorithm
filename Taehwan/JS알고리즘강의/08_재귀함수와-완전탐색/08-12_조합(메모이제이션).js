@@ -91,28 +91,65 @@
 // 복습 2회차
 // nCr = n-1Cr-1 + n-1Cr
 // 끝나는 조건 n === r => 1, r === 0 => 1
-function solution(n, r) {
-  const cacheMap = {};
-  const getCacheMapKey = (n, r) => `${n}C${r}`;
+// function solution(n, r) {
+//   const cacheMap = {};
+//   const getCacheMapKey = (n, r) => `${n}C${r}`;
 
-  const DFS = (_n, _r) => {
-    const cached = cacheMap[getCacheMapKey(_n, _r)];
-    if (cached !== undefined) {
-      return cached;
+//   const DFS = (_n, _r) => {
+//     const cached = cacheMap[getCacheMapKey(_n, _r)];
+//     if (cached !== undefined) {
+//       return cached;
+//     }
+//     if (_n === _r || _r === 0) {
+//       return 1;
+//     } else {
+//       cacheMap[getCacheMapKey(_n, _r)] = DFS(_n - 1, _r - 1) + DFS(_n - 1, _r);
+//       return cacheMap[getCacheMapKey(_n, _r)];
+//     }
+//   };
+
+//   const answer = DFS(n, r);
+//   console.log("cacheMap", cacheMap);
+//   return answer;
+// }
+
+// console.log(solution(33, 19));
+
+// nCr = n-1Cr-1 + n-1Cr
+// 끝나는 조건 n === r => 1, r === 0 => 1
+function solution(n, r) {
+  const cache = {};
+  const getCacheMapKey = (n, r) => `${n}C${r}`;
+  function DFS(_n, _r) {
+    const cachedValue = cache[getCacheMapKey(_n, _r)];
+    if (cachedValue) {
+      return cachedValue;
     }
     if (_n === _r || _r === 0) {
       return 1;
     } else {
-      cacheMap[getCacheMapKey(_n, _r)] = DFS(_n - 1, _r - 1) + DFS(_n - 1, _r);
-      return cacheMap[getCacheMapKey(_n, _r)];
+      const newCacheValue = DFS(_n - 1, _r - 1) + DFS(_n - 1, _r);
+      cache[getCacheMapKey(_n, _r)] = newCacheValue;
+      return newCacheValue;
     }
-  };
+  }
 
-  const answer = DFS(n, r);
-  console.log("cacheMap", cacheMap);
-  return answer;
+  return DFS(n, r);
 }
 
-console.log(solution(33, 19));
+console.log(solution(5, 3));
 
-// TODO : 복습 3회차엔 팩토리얼로 답 구해보기
+// nCr = n!/((n-r)!r!)
+// const factorial = (num) => {
+//   let answer = 1;
+//   for (let i = 1; i <= num; i++) {
+//     answer = answer * i;
+//   }
+//   return answer;
+// };
+
+// const combination = (n, r) => {
+//   return factorial(n) / (factorial(n - r) * factorial(r));
+// };
+
+// console.log(combination(33, 19));
