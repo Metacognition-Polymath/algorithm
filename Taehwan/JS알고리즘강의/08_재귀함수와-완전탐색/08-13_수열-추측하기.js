@@ -181,57 +181,115 @@
 // console.log(solution(4, 16));
 
 // 복습 2회차
+// function solution(n, f) {
+//   // 1. 조합 수 미리 구하기
+//   const combinationCache = {};
+//   const combinCacheKey = (n, r) => `${n}C${r}`;
+//   const getCombinationNumber = (n, r) => {
+//     if (combinationCache[combinCacheKey(n, r)]) {
+//       return combinationCache[combinCacheKey(n, r)];
+//     }
+//     if (n === r || r === 0) {
+//       return 1;
+//     } else {
+//       const result =
+//         getCombinationNumber(n - 1, r - 1) + getCombinationNumber(n - 1, r);
+//       combinationCache[combinCacheKey(n, r)] = result;
+//       return result;
+//     }
+//   };
+
+//   const combinationArr = [];
+//   for (let i = 0; i < n; i++) {
+//     combinationArr.push(getCombinationNumber(n - 1, i));
+//   }
+
+//   // 2. 순열을 구하면서 누적합이 답과 맞는지 확인하기
+//   const permutations = Array(n).fill(0);
+//   const answer = [];
+//   const checkArr = Array(n).fill(0);
+//   let foundAnswer = false;
+//   const getPermutationAndSum = (level, sum) => {
+//     if (foundAnswer) return;
+//     if (level === n) {
+//       if (sum === f) {
+//         answer.push(...permutations);
+//         foundAnswer = true;
+//       }
+//     } else {
+//       // i가 순열의 숫자
+//       for (let i = 1; i <= n; i++) {
+//         if (checkArr[i - 1] === 0) {
+//           checkArr[i - 1] = 1;
+//           permutations[level] = i;
+//           getPermutationAndSum(
+//             level + 1,
+//             sum + permutations[level] * combinationArr[level]
+//           );
+//           checkArr[i - 1] = 0;
+//         }
+//       }
+//     }
+//   };
+//   getPermutationAndSum(0, 0);
+//   return answer;
+// }
+
+// console.log(solution(4, 16));
+
+// 복습 3회차
 function solution(n, f) {
+  // 0. 규칙을 찾고 어떤 순서로 풀어야 할지 생각하기
   // 1. 조합 수 미리 구하기
+  const combinationNumbers = [];
   const combinationCache = {};
-  const combinCacheKey = (n, r) => `${n}C${r}`;
+  const combKey = (n, r) => `${n}C${r}`;
   const getCombinationNumber = (n, r) => {
-    if (combinationCache[combinCacheKey(n, r)]) {
-      return combinationCache[combinCacheKey(n, r)];
-    }
+    const cachedCombinationNumber = combinationCache[combKey(n, r)];
+    if (cachedCombinationNumber) return cachedCombinationNumber;
     if (n === r || r === 0) {
       return 1;
     } else {
       const result =
         getCombinationNumber(n - 1, r - 1) + getCombinationNumber(n - 1, r);
-      combinationCache[combinCacheKey(n, r)] = result;
+      combinationCache[combKey(n, r)] = result;
       return result;
     }
   };
 
-  const combinationArr = [];
   for (let i = 0; i < n; i++) {
-    combinationArr.push(getCombinationNumber(n - 1, i));
+    combinationNumbers.push(getCombinationNumber(n - 1, i));
   }
 
-  // 2. 순열을 구하면서 누적합이 답과 맞는지 확인하기
-  const permutations = Array(n).fill(0);
-  const answer = [];
+  // 2. 순열을 돌면서 미리 구한 조합수와 곱하면서 누적한 합을 마지막 숫자와 비교하기
+  const permutation = Array(n).fill(0);
+  let found = false;
+  let answer = [];
   const checkArr = Array(n).fill(0);
-  let foundAnswer = false;
-  const getPermutationAndSum = (level, sum) => {
-    if (foundAnswer) return;
+  const getPermutationByLevelAndSum = (level, sum) => {
+    if (found) return;
     if (level === n) {
       if (sum === f) {
-        answer.push(...permutations);
-        foundAnswer = true;
+        found = true;
+        answer = [...permutation];
       }
     } else {
-      // i가 순열의 숫자
-      for (let i = 1; i <= n; i++) {
-        if (checkArr[i - 1] === 0) {
-          checkArr[i - 1] = 1;
-          permutations[level] = i;
-          getPermutationAndSum(
+      for (let i = 0; i < n; i++) {
+        if (checkArr[i] === 0) {
+          checkArr[i] = 1;
+          permutation[level] = i + 1;
+          getPermutationByLevelAndSum(
             level + 1,
-            sum + permutations[level] * combinationArr[level]
+            sum + permutation[level] * combinationNumbers[level]
           );
-          checkArr[i - 1] = 0;
+          checkArr[i] = 0;
         }
       }
     }
   };
-  getPermutationAndSum(0, 0);
+
+  getPermutationByLevelAndSum(0, 0);
+
   return answer;
 }
 
