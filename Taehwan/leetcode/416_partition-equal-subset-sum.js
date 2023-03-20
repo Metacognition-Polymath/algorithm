@@ -17,7 +17,6 @@
     let answer = false;
 
     function DFS(level, sum) {
-      console.log("level: ", level, " sum: ", sum);
       if (answer) return;
       if (sum > target) return;
       if (level === nums.length) return;
@@ -36,4 +35,5 @@
   console.log(canPartition([1, 5, 11, 5]));
   // console.log(canPartition([1, 2, 3, 5]));
   // console.log(canPartition([1, 2, 20, 5]));
+  // 시간초과..😭
 }
