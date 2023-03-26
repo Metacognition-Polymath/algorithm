@@ -79,13 +79,19 @@ function solution(n, arr) {
     graph[a][b] = 1;
   }
 
+  const temp = [];
+
   function DFS(v) {
-    if (v === n) answer++;
-    else {
+    if (v === n) {
+      answer++;
+      console.log(temp);
+    } else {
       for (let i = 1; i <= n; i++) {
         if (graph[v][i] === 1 && ch[i] === 0) {
           ch[i] = 1;
+          temp.push(i);
           DFS(i);
+          temp.pop();
           ch[i] = 0;
         }
       }
@@ -93,6 +99,7 @@ function solution(n, arr) {
   }
 
   ch[1] = 1;
+  temp.push(1);
   DFS(1);
 
   return answer;
