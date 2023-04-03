@@ -21,42 +21,97 @@
 ▣ 출력예제
 8
  */
+// function solution(board) {
+//   let answer = 0;
+//   /**
+//    * D(0,0) 을 기준으로 4 방향으로 가는 각각의 경우
+//    * D(-1,0), D(0,1), D(1,0), D(0,-1)
+//    * 위 4경우를 각각 방향으로 정리
+//    * => dx : D(-1,0)에서 x인 -1, D(0,1)에서 x인 0, ...
+//    * dx = [-1,0,1,0]
+//    * dy = [0,1,0,-1]
+//    */
+//   let dx = [-1, 0, 1, 0];
+//   let dy = [0, 1, 0, -1];
+//   const path = [];
+//   function DFS(x, y) {
+//     if (x === 6 && y === 6) {
+//       answer++;
+//       console.log(path);
+//     } else {
+//       for (let k = 0; k < 4; k++) {
+//         let nx = x + dx[k]; // 다음 x좌표
+//         let ny = y + dy[k]; // 다음 y좌표
+//         if (nx >= 0 && nx <= 6 && ny >= 0 && ny <= 6 && board[nx][ny] === 0) {
+//           // 경계 조건 안에 있을 때만 뻣어나가도록 함 : nx >= 0 && nx <= 6 && ny >= 0 && ny <= 6
+//           // 그리고 갈 수 있는 곳으로만 뻣어나가도록 함 : board[nx][ny] === 0
+//           board[nx][ny] = 1; // 지나간 곳은 못가는 곳이라고 체크
+//           path.push([nx, ny]);
+//           DFS(nx, ny);
+//           path.pop();
+//           board[nx][ny] = 0; // 다시 백할 땐 지나갈 수 있는 곳이라고 체크
+//         }
+//       }
+//     }
+//   }
+//   board[0][0] = 1; // 경로 탐색 하듯 처음 시작 지점을 사용했다고 체크
+//   DFS(0, 0);
+//   return answer;
+// }
+
+// let arr = [
+//   [0, 0, 0, 0, 0, 0, 0],
+//   [0, 1, 1, 1, 1, 1, 0],
+//   [0, 0, 0, 1, 0, 0, 0],
+//   [1, 1, 0, 1, 0, 1, 1],
+//   [1, 1, 0, 0, 0, 0, 1],
+//   [1, 1, 0, 1, 1, 0, 0],
+//   [1, 0, 0, 0, 0, 0, 0],
+// ];
+
+// console.log(solution(arr));
+
+// 다시 풀어보기
 function solution(board) {
-  let answer = 0;
+  let pathCount = 0;
   /**
-   * D(0,0) 을 기준으로 4 방향으로 가는 각각의 경우
-   * D(-1,0), D(0,1), D(1,0), D(0,-1)
-   * 위 4경우를 각각 방향으로 정리
-   * => dx : D(-1,0)에서 x인 -1, D(0,1)에서 x인 0, ...
-   * dx = [-1,0,1,0]
-   * dy = [0,1,0,-1]
+   * D(0,0) => D(-1, 0), D(0, 1), D(1, 0), D(0, -1)
    */
-  let dx = [-1, 0, 1, 0];
-  let dy = [0, 1, 0, -1];
+  const rowMoves = [-1, 0, 1, 0];
+  const columnMoves = [0, 1, 0, -1];
+
   const path = [];
-  function DFS(x, y) {
-    if (x === 6 && y === 6) {
-      answer++;
+
+  const DFS = (row, column) => {
+    if (row === 6 && column === 6) {
+      pathCount++;
       console.log(path);
     } else {
-      for (let k = 0; k < 4; k++) {
-        let nx = x + dx[k]; // 다음 x좌표
-        let ny = y + dy[k]; // 다음 y좌표
-        if (nx >= 0 && nx <= 6 && ny >= 0 && ny <= 6 && board[nx][ny] === 0) {
-          // 경계 조건 안에 있을 때만 뻣어나가도록 함 : nx >= 0 && nx <= 6 && ny >= 0 && ny <= 6
-          // 그리고 갈 수 있는 곳으로만 뻣어나가도록 함 : board[nx][ny] === 0
-          board[nx][ny] = 1; // 지나간 곳은 못가는 곳이라고 체크
-          path.push([nx, ny]);
-          DFS(nx, ny);
+      for (let i = 0; i < 4; i++) {
+        const nextRow = row + rowMoves[i];
+        const nextColumn = column + columnMoves[i];
+        if (
+          nextRow >= 0 &&
+          nextColumn >= 0 &&
+          nextRow <= 6 &&
+          nextColumn <= 6 &&
+          board[nextRow][nextColumn] === 0
+        ) {
+          board[nextRow][nextColumn] = 1;
+          path.push([nextRow, nextColumn]);
+          DFS(nextRow, nextColumn);
           path.pop();
-          board[nx][ny] = 0; // 다시 백할 땐 지나갈 수 있는 곳이라고 체크
+          board[nextRow][nextColumn] = 0;
         }
       }
     }
-  }
-  board[0][0] = 1; // 경로 탐색 하듯 처음 시작 지점을 사용했다고 체크
+  };
+
+  board[0][0] = 1;
+  path.push([0, 0]);
   DFS(0, 0);
-  return answer;
+
+  return pathCount;
 }
 
 let arr = [
