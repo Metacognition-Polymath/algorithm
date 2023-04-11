@@ -139,33 +139,65 @@
 // // console.log(solution(8, 3));
 // console.log(solution(5, 14));
 
+// function solution(s, e) {
+//   // 거리 배열
+//   const dist = Array(101).fill(-1);
+//   // BFS를 위한 큐
+//   const queue = [];
+//   // 초기 값 넣기 => 큐, 거리 배열
+//   dist[s] = 0;
+//   queue.push(s);
+//   // BFS
+//   while (queue.length) {
+//     // 큐에서 하나씩 꺼내기
+//     const x = queue.shift();
+//     // 가지 뻣어 나가기
+//     for (const nx of [x - 1, x + 1, x + 5]) {
+//       if (nx === e) {
+//         console.log(dist);
+//         return dist[x] + 1; // BFS리턴은 이전 레벨 + 1
+//       }
+//       if (nx > 0 && nx <= 100 && dist[nx] === -1) {
+//         // check 배열 대신 dist에 값이 초기값이 아닌 경우에만 뻣어 나감
+//         dist[nx] = dist[x] + 1; // 다음 레벨은 현재 레벨 + 1
+//         queue.push(nx);
+//       }
+//     }
+//   }
+
+//   return 0; // 결국 찾지 못했다면 도착할 수 있는 경우의 수는 0
+// }
+// console.log(solution(8, 3));
+// console.log(solution(5, 14));
+
+/** 복습 1회차 */
 function solution(s, e) {
   // 거리 배열
   const dist = Array(101).fill(-1);
-  // BFS를 위한 큐
+
+  // BFS 큐
   const queue = [];
-  // 초기 값 넣기 => 큐, 거리 배열
-  dist[s] = 0;
+
+  // 큐에 초기값 넣기
   queue.push(s);
-  // BFS
+  dist[s] = 0; // 시작은 0레벨
+
   while (queue.length) {
-    // 큐에서 하나씩 꺼내기
-    const x = queue.shift();
-    // 가지 뻣어 나가기
-    for (const nx of [x - 1, x + 1, x + 5]) {
-      if (nx === e) {
-        console.log(dist);
-        return dist[x] + 1; // BFS리턴은 이전 레벨 + 1
+    const v = queue.shift();
+
+    for (const nv of [v - 1, v + 1, v + 5]) {
+      const nextLevel = dist[v] + 1;
+      if (nv === e) {
+        console.log("dist", dist);
+        return nextLevel;
       }
-      if (nx > 0 && nx <= 100 && dist[nx] === -1) {
-        // check 배열 대신 dist에 값이 초기값이 아닌 경우에만 뻣어 나감
-        dist[nx] = dist[x] + 1; // 다음 레벨은 현재 레벨 + 1
-        queue.push(nx);
+      if (dist[nv] === -1 && nv > 0 && nv <= 101) {
+        queue.push(nv);
+        dist[nv] = nextLevel;
       }
     }
   }
 
-  return 0; // 결국 찾지 못했다면 도착할 수 있는 경우의 수는 0
+  return 0;
 }
 console.log(solution(8, 3));
-// console.log(solution(5, 14));
