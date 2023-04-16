@@ -2,7 +2,7 @@
  * 송아지 찾기(BFS: 상태트리탐색)
  * 현수는 송아지를 잃어버렸다. 다행히 송아지에는 위치추적기가 달려 있다.
  * 현수의 위치와 송아지의 위치가 수직선상의 좌표 점으로 주어지면
- * 현수는 현재 위치에서 송아지의 위치까지 다음 과 같은 방법으로 이동한다.
+ * 현수는 현재 위치에서 송아지의 위치까지 다음과 같은 방법으로 이동한다.
  * 송아지는 움직이지 않고 제자리에 있다.
  * 현수는 스카이 콩콩을 타고 가는데 한 번의 점프로
  * 앞으로 1, 뒤로 1, 앞으로 5를 이동할 수 있다.
@@ -203,16 +203,57 @@
 // console.log(solution(8, 3));
 
 // 복습 2회차
+// function solution(startPosition, endPosition) {
+//   // 위치
+//   const positions = Array(101).fill(-1);
+
+//   // BFS 큐
+//   const queue = [];
+
+//   positions[startPosition] = 0;
+//   queue.push(startPosition);
+
+//   while (queue.length) {
+//     const currentPosition = queue.shift();
+
+//     for (const nextPosition of [
+//       currentPosition - 1,
+//       currentPosition + 1,
+//       currentPosition + 5,
+//     ]) {
+//       if (nextPosition === endPosition) {
+//         console.log("positions", positions);
+//         return positions[currentPosition] + 1; // 다음 포지션에 도달한 횟수는 이전 포지션에 도달한 횟수 + 1
+//       }
+//       if (
+//         nextPosition > 0 &&
+//         nextPosition <= 100 &&
+//         positions[nextPosition] === -1
+//       ) {
+//         positions[nextPosition] = positions[currentPosition] + 1;
+//         queue.push(nextPosition);
+//       }
+//     }
+//   }
+
+//   console.log("no result");
+//   return 0;
+// }
+// console.log(solution(5, 14));
+
+// 복습 3회차
 function solution(startPosition, endPosition) {
-  // 위치
-  const positions = Array(101).fill(-1);
+  // 거리 + 레벨
+  const dist = Array(101).fill(-1);
 
   // BFS 큐
   const queue = [];
 
-  positions[startPosition] = 0;
+  // 초기값 설정
+  dist[startPosition] = 0;
   queue.push(startPosition);
 
+  // BFS
   while (queue.length) {
     const currentPosition = queue.shift();
 
@@ -221,22 +262,25 @@ function solution(startPosition, endPosition) {
       currentPosition + 1,
       currentPosition + 5,
     ]) {
+      const nextLevel = dist[currentPosition] + 1;
       if (nextPosition === endPosition) {
-        console.log("positions", positions);
-        return positions[currentPosition] + 1; // 다음 포지션에 도달한 횟수는 이전 포지션에 도달한 횟수 + 1
-      }
-      if (
-        nextPosition > 0 &&
-        nextPosition <= 100 &&
-        positions[nextPosition] === -1
-      ) {
-        positions[nextPosition] = positions[currentPosition] + 1;
-        queue.push(nextPosition);
+        return nextLevel;
+      } else {
+        // boundary안에 있고 이전에 뻣어나간적이 없었던 곳에서만 뻣어나감(중복 방지)
+        if (
+          nextPosition > 0 &&
+          nextPosition <= 101 &&
+          dist[nextPosition] === -1
+        ) {
+          dist[nextPosition] = nextLevel;
+          queue.push(nextPosition);
+        }
       }
     }
   }
 
-  console.log("no result");
+  // no way to get there
   return 0;
 }
-console.log(solution(5, 14));
+// console.log(solution(5, 14));
+console.log(solution(8, 3));
