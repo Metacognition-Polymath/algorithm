@@ -27,6 +27,69 @@
 /**
  * @param {number[][]} board
  */
+// function solution(board) {
+//   let answer = 0;
+//   let n = board.length;
+//   /**
+//    * 방향 : 좌표
+//    * 12시 : -1, 0
+//    *  1시 : -1, 1
+//    *  3시 : 0, 1
+//    *  5시 : 1, 1
+//    *  6시 : 1, 0
+//    *  7시 : 1, -1
+//    *  9시 : 0, -1
+//    * 11시 : -1, -1
+//    */
+//   let dx = [-1, -1, 0, 1, 1, 1, 0, -1];
+//   let dy = [0, 1, 1, 1, 0, -1, -1, -1];
+
+//   const queue = [];
+
+//   // 맵의 모든 칸을 탐색(n * n) -> 2중 for문
+//   for (let i = 0; i < n; i++) {
+//     for (let j = 0; j < n; j++) {
+//       // 섬인 경우에 탐색 시작 : board[i][j] === 1
+//       if (board[i][j] === 1) {
+//         // 한번 탐색한 곳은 0으로 표시하여 다시 탐색하지 않도록 함
+//         board[i][j] = 0;
+//         queue.push([i, j]); // BFS를 위해 큐에 넣음
+//         answer++;
+//         while (queue.length) {
+//           let [x, y] = queue.shift(); // BFS 큐에서 꺼내서 현재 위치를 가져옴
+//           console.log(x, y);
+//           for (let k = 0; k < 8; k++) {
+//             // 상하좌우 + 대각선 => 8방향 탐색 시작
+//             let nx = x + dx[k]; // 다음 행
+//             let ny = y + dy[k]; // 다음 열
+//             if (nx >= 0 && nx < n && ny >= 0 && ny < n && board[nx][ny] === 1) {
+//               // 다음행과 다음열이 맵안에 존재하고 다음 위치가 섬일 때 탐색을 위한 BFS 큐에 넣음
+//               board[nx][ny] = 0; // 큐에 넣기전에 해당 위치는 탐색한 곳이라고 표시
+//               queue.push([nx, ny]); // BFS 큐에 넣어서 다음 탐색을 가능하게 함
+//             }
+//           }
+//         }
+//         console.log("BFS end");
+//       }
+//     }
+//   }
+
+//   return answer;
+// }
+
+// const arr = [
+//   [1, 1, 0, 0, 0, 1, 0],
+//   [0, 1, 1, 0, 1, 1, 0],
+//   [0, 1, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 1, 0, 1, 1],
+//   [1, 1, 0, 1, 1, 0, 0],
+//   [1, 0, 0, 0, 1, 0, 0],
+//   [1, 0, 1, 0, 1, 0, 0],
+// ];
+
+// console.log(solution(arr));
+
+// BFS 방식으로 혼자 풀어보기
 function solution(board) {
   let answer = 0;
   let n = board.length;
@@ -46,25 +109,26 @@ function solution(board) {
 
   const queue = [];
 
+  // 맵의 모든 위치 탐색
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
       if (board[i][j] === 1) {
-        board[i][j] = 0;
+        board[i][j] = 0; // BFS 큐에 넣기전에 탐색한 곳이라고 체크
         queue.push([i, j]);
         answer++;
         while (queue.length) {
-          let [x, y] = queue.shift();
-          console.log(x, y);
-          for (let k = 0; k < 8; k++) {
-            let nx = x + dx[k];
-            let ny = y + dy[k];
-            if (nx >= 0 && nx < n && ny >= 0 && ny < n && board[nx][ny] === 1) {
+          const [x, y] = queue.shift(); // 현재 위치
+          for (let k = 0; k < dx.length; k++) {
+            // 상하좌우 + 대각선
+            const nx = x + dx[k];
+            const ny = y + dy[k];
+            // 맵의 범위 안에 있고 다음 탐색 위치가 섬인 경우에만 뻣어나감
+            if (nx >= 0 && ny >= 0 && nx < n && ny < n && board[nx][ny] === 1) {
               board[nx][ny] = 0;
               queue.push([nx, ny]);
             }
           }
         }
-        console.log("BFS end");
       }
     }
   }
