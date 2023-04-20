@@ -85,11 +85,68 @@
 // console.log(solution(arr));
 
 // DFS 방식으로 혼자서 풀어보기
+// function solution(board) {
+//   let answer = 0;
+//   let n = board.length;
+//   /**
+//    * 방향 : 좌표
+//    * 12시 : -1, 0
+//    *  1시 : -1, 1
+//    *  3시 : 0, 1
+//    *  5시 : 1, 1
+//    *  6시 : 1, 0
+//    *  7시 : 1, -1
+//    *  9시 : 0, -1
+//    * 11시 : -1, -1
+//    */
+//   let dx = [-1, -1, 0, 1, 1, 1, 0, -1];
+//   let dy = [0, 1, 1, 1, 0, -1, -1, -1];
+
+//   // 해당 위치를 기준으로 연결된 모든 섬을 찾는 DFS 함수
+//   const DFS = (x, y) => {
+//     // 상하좌우 + 대각선 => 8방향 탐색 시작
+//     for (let k = 0; k < 8; k++) {
+//       const nx = x + dx[k];
+//       const ny = y + dy[k];
+//       // 다음 좌표가 맵 안에 존재하고, 다음 좌표의 값이 섬인 경우에 DFS를 뻣어나감
+//       if (nx >= 0 && ny >= 0 && nx < n && ny < n && board[nx][ny] === 1) {
+//         board[nx][ny] = 0; // 뻣기 전에 해당 지점은 탐색한 곳이라고 표시
+//         DFS(nx, ny);
+//       }
+//     }
+//   };
+
+//   // 맵의 모든 지점을 탐색
+//   for (let i = 0; i < n; i++) {
+//     for (let j = 0; j < n; j++) {
+//       if (board[i][j] === 1) {
+//         answer++;
+//         board[i][j];
+//         DFS(i, j);
+//       }
+//     }
+//   }
+
+//   console.log("DFS");
+//   return answer;
+// }
+
+// const arr = [
+//   [1, 1, 0, 0, 0, 1, 0],
+//   [0, 1, 1, 0, 1, 1, 0],
+//   [0, 1, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 1, 0, 1, 1],
+//   [1, 1, 0, 1, 1, 0, 0],
+//   [1, 0, 0, 0, 1, 0, 0],
+//   [1, 0, 1, 0, 1, 0, 0],
+// ];
+
+// console.log(solution(arr));
+
 function solution(board) {
-  let answer = 0;
-  let n = board.length;
+  let islandCount = 0;
+
   /**
-   * 방향 : 좌표
    * 12시 : -1, 0
    *  1시 : -1, 1
    *  3시 : 0, 1
@@ -99,36 +156,37 @@ function solution(board) {
    *  9시 : 0, -1
    * 11시 : -1, -1
    */
-  let dx = [-1, -1, 0, 1, 1, 1, 0, -1];
-  let dy = [0, 1, 1, 1, 0, -1, -1, -1];
+  const dx = [-1, -1, 0, 1, 1, 1, 0, -1];
+  const dy = [0, 1, 1, 1, 0, -1, -1, -1];
 
-  // 해당 위치를 기준으로 연결된 모든 섬을 찾는 DFS 함수
   const DFS = (x, y) => {
-    // 상하좌우 + 대각선 => 8방향 탐색 시작
-    for (let k = 0; k < 8; k++) {
+    for (let k = 0; k < dx.length; k++) {
       const nx = x + dx[k];
       const ny = y + dy[k];
-      // 다음 좌표가 맵 안에 존재하고, 다음 좌표의 값이 섬인 경우에 DFS를 뻣어나감
-      if (nx >= 0 && ny >= 0 && nx < n && ny < n && board[nx][ny] === 1) {
-        board[nx][ny] = 0; // 뻣기 전에 해당 지점은 탐색한 곳이라고 표시
+      if (
+        nx >= 0 &&
+        ny >= 0 &&
+        nx < board.length &&
+        ny < board.length &&
+        board[nx][ny] === 1
+      ) {
+        board[nx][ny] = 0;
         DFS(nx, ny);
       }
     }
   };
 
-  // 맵의 모든 지점을 탐색
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board.length; j++) {
       if (board[i][j] === 1) {
-        answer++;
-        board[i][j];
+        board[i][j] = 0;
+        islandCount++;
         DFS(i, j);
       }
     }
   }
 
-  console.log("DFS");
-  return answer;
+  return islandCount;
 }
 
 const arr = [
