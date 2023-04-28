@@ -21,16 +21,32 @@
 // console.log(solution(7));
 
 // 정답
+// function solution(n) {
+//   let answer = 0;
+//   let dy = Array.from({ length: n + 2 }, () => 0);
+//   dy[1] = 1;
+//   dy[2] = 2;
+//   for (let i = 3; i <= n + 1; i++) {
+//     dy[i] = dy[i - 2] + dy[i - 1];
+//   }
+//   answer = dy[n + 1];
+//   return answer;
+// }
+
+// console.log(solution(7));
+
+// 복습 1회차
 function solution(n) {
-  let answer = 0;
-  let dy = Array.from({ length: n + 2 }, () => 0);
-  dy[1] = 1;
-  dy[2] = 2;
-  for (let i = 3; i <= n + 1; i++) {
-    dy[i] = dy[i - 2] + dy[i - 1];
+  // 돌다리가 0개 => 1
+  // 돌다리가 1개 => 2
+  // 돌다리가 2개 => 돌다리 0개 + 돌다리 1개
+  const dp = Array.from({ length: n + 1 }, () => 0);
+  dp[0] = 1;
+  dp[1] = 2;
+  for (let i = 2; i <= n; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2];
   }
-  answer = dy[n + 1];
-  return answer;
+  return dp[n];
 }
 
 console.log(solution(7));
