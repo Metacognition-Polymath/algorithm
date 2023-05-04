@@ -79,21 +79,62 @@
 // console.log(solution([5, 3, 7, 8, 6, 2, 9, 4]));
 
 // 혼자서 풀어보기
+// function solution(arr) {
+//   // 순서가 변함이 없을 때 최대 부분 증가 수열
+//   const dy = Array.from({ length: arr.length }, () => 0); // arr[i]가 마지막일 때 최대 부분 증가 수열의 원소의 개수
+//   dy[0] = 1;
+//   for (let i = 1; i < arr.length; i++) { // 순차적으로 확인
+//     let max = 0; // 임시 부분 증가 수열의 최대 수
+//     for (let j = i - 1; j >= 0; j--) { // 역순으로 해당 숫자 보다 작은 인덱스의 숫자들을 확인하면서 최대 부분 증가 수를 구함
+//       const isSmaller = arr[j] < arr[i];
+//       if (isSmaller && dy[j] > max) {
+//         max = dy[j];
+//       }
+//     }
+//     dy[i] = max + 1;
+//   }
+
+//   console.log("dy", dy);
+//   return Math.max(...dy);
+// }
+
+// console.log(solution([5, 3, 7, 8, 6, 2, 9, 4]));
+
+// 복습 1회차
 function solution(arr) {
+  /**
+   * 최대 부분 증가 수열의 수는 어떻게 구해지는가?
+   * 해당 인덱스의 숫자를 기준으로 뒤에 있는 인덱스에 해당하는 숫자들을 검사
+   * dynamic programming : 점진적으로 앞에서 부터 구한 결과를 이용해서 뒤의 결과를 구함
+   * 0번째에 해당하는 현재의 수가 마지막이라면 전체 부분집합의 수는 1
+   * 1번째에 해당하는 수가 마지막이라면 0번째(n-1번째) 이하의 수 중에서 자신보다 작은 수의 최대 부분집합 수를 비교해서 가장 큰 부분집합의 수 + 1
+   */
+  /**
+   * @type subArrayMap {[number]: number[]}
+   */
+  const subArrayMap = Array.from({ length: arr.length }, () => []);
+
+  // console.log("subArrayMap initial", subArrayMap);
+
   const dy = Array.from({ length: arr.length }, () => 0);
   dy[0] = 1;
+  subArrayMap[0].push(arr[0]);
   for (let i = 1; i < arr.length; i++) {
-    let max = 0;
+    let tempMax = 0;
     for (let j = i - 1; j >= 0; j--) {
-      const isSmaller = arr[j] < arr[i];
-      if (isSmaller && dy[j] > max) {
-        max = dy[j];
+      if (arr[j] < arr[i] && dy[j] > tempMax) {
+        tempMax = dy[j];
+      }
+      if (arr[j] < arr[i] && subArrayMap[j].length > subArrayMap[i].length) {
+        subArrayMap[i] = [...subArrayMap[j]];
       }
     }
-    dy[i] = max + 1;
+    dy[i] = tempMax + 1;
+    subArrayMap[i].push(arr[i]);
   }
 
   console.log("dy", dy);
+  console.log("subArrayMap", subArrayMap);
   return Math.max(...dy);
 }
 
