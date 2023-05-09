@@ -69,7 +69,44 @@ DFS를 이용한 완전 탐색으로 풀어봤었다
 // console.log(solution(15, arr));
 
 // 혼자서 풀어보기2
+// function solution(m, coin) {
+//   const dy = Array.from({ length: m + 1 }, () => Number.MAX_SAFE_INTEGER);
+//   dy[0] = 0;
+//   for (let i = 0; i < coin.length; i++) {
+//     for (let j = coin[i]; j <= m; j++) {
+//       dy[j] = Math.min(dy[j], dy[j - coin[i]] + 1);
+//     }
+//     console.log(dy);
+//   }
+
+//   return dy[m];
+// }
+
+// let arr = [1, 2, 5];
+// console.log(solution(15, arr));
+
+// 복습 1회차
+// m: 줘야할 거스름돈, coin: 동전 종류
+// function solution(m, coin) {
+//   // 점화식을 구해서 최적의 값을 계속 찾는다
+//   const dy = Array.from({ length: m + 1 }, () => Number.MAX_SAFE_INTEGER);
+//   dy[0] = 0;
+//   for (let i = 0; i < coin.length; i++) {
+//     for (let j = coin[i]; j <= m; j++) {
+//       // 현재 인덱스에 해당하는 동전을 하나 사용한다면
+//       dy[j] = Math.min(dy[j], dy[j - coin[i]] + 1);
+//     }
+//     console.log(dy);
+//   }
+
+//   return dy[m];
+// }
+
+// let arr = [1, 2, 5];
+// console.log(solution(15, arr));
+
 function solution(m, coin) {
+  // 점화식을 구해서 최적의 값을 계속 찾는다
   const dy = Array.from({ length: m + 1 }, () => Number.MAX_SAFE_INTEGER);
   dy[0] = 0;
   for (let i = 0; i < coin.length; i++) {
