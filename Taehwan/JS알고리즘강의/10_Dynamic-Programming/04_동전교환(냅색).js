@@ -105,15 +105,41 @@ DFS를 이용한 완전 탐색으로 풀어봤었다
 // let arr = [1, 2, 5];
 // console.log(solution(15, arr));
 
+// function solution(m, coin) {
+//   // 점화식을 구해서 최적의 값을 계속 찾는다
+//   const dy = Array.from({ length: m + 1 }, () => Number.MAX_SAFE_INTEGER);
+//   dy[0] = 0;
+//   for (let i = 0; i < coin.length; i++) {
+//     for (let j = coin[i]; j <= m; j++) {
+//       dy[j] = Math.min(dy[j], dy[j - coin[i]] + 1);
+//     }
+//     console.log(dy);
+//   }
+
+//   return dy[m];
+// }
+
+// let arr = [1, 2, 5];
+// console.log(solution(15, arr));
+
+// 복습 2회차
+// 동전 종류가 주어질 때, 가장 적은 동전 개수를 사용해서 거스름돈을 주려면?
 function solution(m, coin) {
-  // 점화식을 구해서 최적의 값을 계속 찾는다
   const dy = Array.from({ length: m + 1 }, () => Number.MAX_SAFE_INTEGER);
+  // 최소 값을 구하므로 초기값은 큰 수로 채운다
+  // 점화식 관계를 세운다
+  /**
+   * 1, 2, 5 -> 6원
+   * 1원만으로 채울 때 -> 가장 큼
+   * 1, 2원을 사용해서 채울 때 -> 조금 더 작음
+   * 5원까지 사용해서 채울 때 -> 가장 작음
+   */
   dy[0] = 0;
   for (let i = 0; i < coin.length; i++) {
     for (let j = coin[i]; j <= m; j++) {
       dy[j] = Math.min(dy[j], dy[j - coin[i]] + 1);
     }
-    console.log(dy);
+    // console.log(dy);
   }
 
   return dy[m];
