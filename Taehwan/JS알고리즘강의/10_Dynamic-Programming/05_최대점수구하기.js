@@ -82,16 +82,47 @@
 // console.log(solution(20, arr));
 
 // 다시 풀어보기 2
+// function solution(m, arr) {
+//   const dy = Array.from({ length: m + 1 }, () => 0);
+//   for (let i = 0; i < arr.length; i++) {
+//     const [score, time] = arr[i];
+//     // 중복되지 않도록 뒤에서 부터 순회
+//     for (let j = m; j >= time; j--) {
+//       dy[j] = Math.max(dy[j], dy[j - time] + score);
+//     }
+//     console.log(dy);
+//   }
+//   return dy[m];
+// }
+
+// let arr = [
+//   [10, 5],
+//   [25, 12],
+//   [15, 8],
+//   [6, 3],
+//   [7, 4],
+// ];
+// console.log(solution(20, arr));
+
+// 복습 1회차
 function solution(m, arr) {
   const dy = Array.from({ length: m + 1 }, () => 0);
+
+  /**
+   * knapsack의 기본은 경우의 수를 늘려나가면서 점화식을 완성시키는 것이다
+   * 한번만 사용해야되는 것은 뒤에서 부터 순회하고
+   * 제한된 자원만큼 만들어진 배열에서
+   * - 각 제한된 자원만큼의 앞의 가치 + 현재 가치를 더 한 것과
+   *   기존 가치와 비교하면서 최적의 해를 찾는다
+   */
   for (let i = 0; i < arr.length; i++) {
     const [score, time] = arr[i];
-    // 중복되지 않도록 뒤에서 부터 순회
     for (let j = m; j >= time; j--) {
       dy[j] = Math.max(dy[j], dy[j - time] + score);
     }
-    console.log(dy);
+    console.log("dy", dy);
   }
+
   return dy[m];
 }
 
