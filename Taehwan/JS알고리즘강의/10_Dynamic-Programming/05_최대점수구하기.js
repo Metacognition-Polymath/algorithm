@@ -136,6 +136,39 @@
 // console.log(solution(20, arr));
 
 // 복습 2회차
+// function solution(m, arr) {
+//   /**
+//    * knapsack 기본
+//    * 경우의 수를 늘려 나가면서 점화식을 완성한다
+//    * 동적프로그래밍 배열(dy)은 제한된 자원 + 1개 만큼 만들고
+//    * dy의 각 인덱스는 2중 for문의 안쪽 for문인 j와 대응된다
+//    */
+//   // 중복해서 사용할 수 없으므로 0으로 초기화 후 뒤에서 부터 순회한다
+//   const dy = Array.from({ length: m + 1 }, () => 0);
+
+//   for (let i = 0; i < arr.length; i++) {
+//     const [score, time] = arr[i];
+//     // 중복을 허용하지 않으므로 뒤에서 부터 순회(제한된 자원 부터 현재 경우의 수의 제한된 자원까지)
+//     for (let j = m; j >= time; j--) {
+//       // 제한된 자원에서 최대 가치(score)를 찾는다
+//       dy[j] = Math.max(dy[j], dy[j - time] + score);
+//     }
+//     console.log(dy);
+//   }
+
+//   return dy[m];
+// }
+
+// let arr = [
+//   [10, 5],
+//   [25, 12],
+//   [15, 8],
+//   [6, 3],
+//   [7, 4],
+// ];
+// console.log(solution(20, arr));
+
+// 복습 3회차
 function solution(m, arr) {
   /**
    * knapsack 기본
@@ -145,12 +178,9 @@ function solution(m, arr) {
    */
   // 중복해서 사용할 수 없으므로 0으로 초기화 후 뒤에서 부터 순회한다
   const dy = Array.from({ length: m + 1 }, () => 0);
-
   for (let i = 0; i < arr.length; i++) {
     const [score, time] = arr[i];
-    // 중복을 허용하지 않으므로 뒤에서 부터 순회(제한된 자원 부터 현재 경우의 수의 제한된 자원까지)
     for (let j = m; j >= time; j--) {
-      // 제한된 자원에서 최대 가치(score)를 찾는다
       dy[j] = Math.max(dy[j], dy[j - time] + score);
     }
     console.log(dy);
