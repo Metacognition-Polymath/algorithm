@@ -203,18 +203,95 @@
 // console.log(solution(arr));
 
 // 복습 2회차
-function solution(board) {
-  let pathCount = 0;
+// function solution(board) {
+//   let pathCount = 0;
 
+//   /**
+//    * DFS(row, column)
+//    * DFS(0, 0)에서 움직일 수 있는 모든 경우
+//    * => 12시 방향(북쪽) : DFS(-1, 0),
+//    * 3시 방향(동쪽) : DFS(0, 1),
+//    * 6시 방향(남쪽) : DFS(1, 0),
+//    * 9시 방향(서쪽) : DFS(0, -1)
+//    */
+//   const moving = [
+//     {
+//       row: -1,
+//       column: 0,
+//     },
+//     {
+//       row: 0,
+//       column: 1,
+//     },
+//     {
+//       row: 1,
+//       column: 0,
+//     },
+//     {
+//       row: 0,
+//       column: -1,
+//     },
+//   ];
+
+//   const path = [];
+
+//   const DFS = (row, column) => {
+//     if (row === 6 && column === 6) {
+//       pathCount++;
+//       console.log(path);
+//     } else {
+//       for (let i = 0; i < moving.length; i++) {
+//         const nextRow = row + moving[i].row;
+//         const nextColumn = column + moving[i].column;
+//         if (
+//           nextRow >= 0 &&
+//           nextColumn >= 0 &&
+//           nextRow <= 6 &&
+//           nextColumn <= 6 &&
+//           board[nextRow][nextColumn] === 0
+//         ) {
+//           board[nextRow][nextColumn] = 1;
+//           path.push([nextRow, nextColumn]);
+//           DFS(nextRow, nextColumn);
+//           path.pop();
+//           board[nextRow][nextColumn] = 0;
+//         }
+//       }
+//     }
+//   };
+
+//   path.push([0, 0]);
+//   board[0][0] = 1;
+//   DFS(0, 0);
+
+//   return pathCount;
+// }
+
+// let arr = [
+//   [0, 0, 0, 0, 0, 0, 0],
+//   [0, 1, 1, 1, 1, 1, 0],
+//   [0, 0, 0, 1, 0, 0, 0],
+//   [1, 1, 0, 1, 0, 1, 1],
+//   [1, 1, 0, 0, 0, 0, 1],
+//   [1, 1, 0, 1, 1, 0, 0],
+//   [1, 0, 0, 0, 0, 0, 0],
+// ];
+
+// console.log(solution(arr));
+
+// 복습 3회차
+function solution(board) {
+  // 탈출 경로 가지수
+  let escapePathCount = 0;
+
+  // 이동 방향
   /**
-   * DFS(row, column)
-   * DFS(0, 0)에서 움직일 수 있는 모든 경우
-   * => 12시 방향(북쪽) : DFS(-1, 0),
+   * 12시 방향(북쪽) : DFS(-1, 0),
    * 3시 방향(동쪽) : DFS(0, 1),
    * 6시 방향(남쪽) : DFS(1, 0),
    * 9시 방향(서쪽) : DFS(0, -1)
    */
-  const moving = [
+  const movingList = [
     {
       row: -1,
       column: 0,
@@ -233,16 +310,18 @@ function solution(board) {
     },
   ];
 
+  // 경로
   const path = [];
 
+  // 경로 탐색 DFS
   const DFS = (row, column) => {
     if (row === 6 && column === 6) {
-      pathCount++;
+      escapePathCount++;
       console.log(path);
     } else {
-      for (let i = 0; i < moving.length; i++) {
-        const nextRow = row + moving[i].row;
-        const nextColumn = column + moving[i].column;
+      for (let i = 0; i < movingList.length; i++) {
+        const nextRow = row + movingList[i].row;
+        const nextColumn = column + movingList[i].column;
         if (
           nextRow >= 0 &&
           nextColumn >= 0 &&
@@ -260,11 +339,12 @@ function solution(board) {
     }
   };
 
+  // 시작점
   path.push([0, 0]);
   board[0][0] = 1;
   DFS(0, 0);
 
-  return pathCount;
+  return escapePathCount;
 }
 
 let arr = [
