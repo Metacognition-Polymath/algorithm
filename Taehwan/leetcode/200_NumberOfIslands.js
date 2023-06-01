@@ -177,7 +177,197 @@
 // //   ])
 // // ); // 3
 
-// BFS 복습
+// // BFS 복습
+// var numIslands = function (grid) {
+//   let islandCount = 0;
+
+//   // 움직 일 수 있는 방향
+//   /**
+//    *       row, column
+//    * 12시 : -1, 0
+//    *  3시 :  0, 1
+//    *  6시 :  1, 0
+//    *  9시 :  0, -1
+//    */
+//   const movings = [
+//     {
+//       row: -1,
+//       col: 0,
+//     },
+//     {
+//       row: 0,
+//       col: 1,
+//     },
+//     {
+//       row: 1,
+//       col: 0,
+//     },
+//     {
+//       row: 0,
+//       col: -1,
+//     },
+//   ];
+
+//   const columnLength = grid[0].length;
+//   const rowLength = grid.length;
+
+//   const queue = [];
+
+//   const isSearchable = (row, col) => {
+//     return !!(
+//       row >= 0 &&
+//       col >= 0 &&
+//       row < rowLength &&
+//       col < columnLength &&
+//       grid[row][col] === "1"
+//     );
+//   };
+
+//   // 모든 좌표 탐색
+//   for (let row = 0; row < rowLength; row++) {
+//     for (let col = 0; col < columnLength; col++) {
+//       // 조건에 맞는 다면 BFS 탐색 시작
+//       if (isSearchable(row, col)) {
+//         // 탐색을 시작할 때가 섬의 개수가 증가할 때
+//         islandCount++;
+//         // 탐색 시작한 점은 탐색했다는 표시를 해줌
+//         grid[row][col] = "-1";
+//         // BFS를 위해 queue에 넣어줌
+//         queue.push([row, col]);
+//         console.log([row, col]);
+//         while (queue.length) {
+//           const [row, col] = queue.shift();
+//           // 움직일 수 있는 모든 경로를 탐색하면서 표시
+//           for (let k = 0; k < movings.length; k++) {
+//             const nextRow = row + movings[k].row;
+//             const nextCol = col + movings[k].col;
+//             if (isSearchable(nextRow, nextCol)) {
+//               grid[nextRow][nextCol] = "-1";
+//               queue.push([nextRow, nextCol]);
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+
+//   return islandCount;
+// };
+
+// console.log(
+//   numIslands([
+//     ["1", "1", "1", "1", "0"],
+//     ["1", "1", "0", "1", "0"],
+//     ["1", "1", "0", "0", "0"],
+//     ["0", "0", "0", "0", "0"],
+//   ])
+// ); // 1
+
+// console.log(
+//   numIslands([
+//     ["1", "1", "0", "0", "0"],
+//     ["1", "1", "0", "0", "0"],
+//     ["0", "0", "1", "0", "0"],
+//     ["0", "0", "0", "1", "1"],
+//   ])
+// ); // 3
+
+// BFS 복습 1회차
+// var numIslands = function (grid) {
+//   let islandCount = 0;
+
+//   // 움직 일 수 있는 방향
+//   /**
+//    *       row, column
+//    * 12시 : -1, 0
+//    *  3시 :  0, 1
+//    *  6시 :  1, 0
+//    *  9시 :  0, -1
+//    */
+//   const movings = [
+//     {
+//       row: -1,
+//       col: 0,
+//     },
+//     {
+//       row: 0,
+//       col: 1,
+//     },
+//     {
+//       row: 1,
+//       col: 0,
+//     },
+//     {
+//       row: 0,
+//       col: -1,
+//     },
+//   ];
+
+//   // 모든 맵을 순차적으로 탐색하면서 섬을 발견하면 해당 지점과 연결된 모든 곳을 체크
+//   const rowLength = grid.length;
+//   const columnLength = grid[0].length;
+
+//   const isSearchable = (row, col) => {
+//     return !!(
+//       row >= 0 &&
+//       col >= 0 &&
+//       row < rowLength &&
+//       col < columnLength &&
+//       grid[row][col] === "1"
+//     );
+//   };
+
+//   const checkPoint = (row, col) => {
+//     grid[row][col] = "-1";
+//   };
+
+//   const bfsQueue = [];
+
+//   for (let row = 0; row < rowLength; row++) {
+//     for (let col = 0; col < columnLength; col++) {
+//       if (isSearchable(row, col)) {
+//         islandCount++;
+//         checkPoint(row, col);
+//         bfsQueue.push([row, col]);
+//         while (bfsQueue.length) {
+//           const [r, c] = bfsQueue.shift();
+//           for (let k = 0; k < movings.length; k++) {
+//             const nextRow = r + movings[k].row;
+//             const nextCol = c + movings[k].col;
+//             if (isSearchable(nextRow, nextCol)) {
+//               checkPoint(nextRow, nextCol);
+//               bfsQueue.push([nextRow, nextCol]);
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+
+//   console.log(grid);
+
+//   return islandCount;
+// };
+
+// console.log(
+//   numIslands([
+//     ["1", "1", "1", "1", "0"],
+//     ["1", "1", "0", "1", "0"],
+//     ["1", "1", "0", "0", "0"],
+//     ["0", "0", "0", "0", "0"],
+//   ])
+// ); // 1
+
+// console.log(
+//   numIslands([
+//     ["1", "1", "0", "0", "0"],
+//     ["1", "1", "0", "0", "0"],
+//     ["0", "0", "1", "0", "0"],
+//     ["0", "0", "0", "1", "1"],
+//   ])
+// ); // 3
+
+// DFS 복습 1회차
 var numIslands = function (grid) {
   let islandCount = 0;
 
@@ -208,11 +398,12 @@ var numIslands = function (grid) {
     },
   ];
 
-  const columnLength = grid[0].length;
+  // 모든 지점을 탐색하면서 섬을 발견하면 섬과 연결된 곳을 DFS로 체크 표시
+  // 0. 모든 지점 순회를 위한 grid의 범위
   const rowLength = grid.length;
+  const columnLength = grid[0].length;
 
-  const queue = [];
-
+  // 2. DFS 탐색 조건
   const isSearchable = (row, col) => {
     return !!(
       row >= 0 &&
@@ -223,33 +414,40 @@ var numIslands = function (grid) {
     );
   };
 
-  // 모든 좌표 탐색
+  // 3-1. 밟은 땅은 체크
+  const checkIsland = (row, col) => {
+    grid[row][col] = "-1";
+  };
+
+  // 3. DFS 탐색하면서 연결된 모든 지점을 체크
+  const DFS = (row, col) => {
+    // 해당 지점 check
+    checkIsland(row, col);
+    // 연결된 지점들을 탐색하면서 섬인지 확인
+    for (let k = 0; k < movings.length; k++) {
+      const nextRow = row + movings[k].row;
+      const nextCol = col + movings[k].col;
+
+      if (isSearchable(nextRow, nextCol)) {
+        DFS(nextRow, nextCol);
+      }
+    }
+  };
+
+  // 1. 모든 지점 순회
   for (let row = 0; row < rowLength; row++) {
     for (let col = 0; col < columnLength; col++) {
-      // 조건에 맞는 다면 BFS 탐색 시작
       if (isSearchable(row, col)) {
-        // 탐색을 시작할 때가 섬의 개수가 증가할 때
+        // count
         islandCount++;
-        // 탐색 시작한 점은 탐색했다는 표시를 해줌
-        grid[row][col] = "-1";
-        // BFS를 위해 queue에 넣어줌
-        queue.push([row, col]);
-        console.log([row, col]);
-        while (queue.length) {
-          const [row, col] = queue.shift();
-          // 움직일 수 있는 모든 경로를 탐색하면서 표시
-          for (let k = 0; k < movings.length; k++) {
-            const nextRow = row + movings[k].row;
-            const nextCol = col + movings[k].col;
-            if (isSearchable(nextRow, nextCol)) {
-              grid[nextRow][nextCol] = "-1";
-              queue.push([nextRow, nextCol]);
-            }
-          }
-        }
+
+        // DFS
+        DFS(row, col);
       }
     }
   }
+
+  console.log("grid", grid);
 
   return islandCount;
 };
