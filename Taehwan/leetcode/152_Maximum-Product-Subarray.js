@@ -104,15 +104,44 @@ Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
  * 교훈
  * 냅색이 아닌데 냅색으로 풀려고 하니까 답이 안나왔다
  */
+// /**
+//  * @param {number[]} nums
+//  * @return {number}
+//  */
+// var maxProduct = function (nums) {
+//   let res = Math.max(...nums);
+
+//   let curMin = 1;
+//   let curMax = 1;
+
+//   for (const n of nums) {
+//     if (n === 0) {
+//       curMax = 1;
+//       curMin = 1;
+//       continue;
+//     }
+//     tmp = curMax * n;
+//     curMax = Math.max(n * curMax, n * curMin, n); // 자기 자신이 될 수도 있음
+//     curMin = Math.min(tmp, n * curMin, n);
+//     res = Math.max(res, curMax, curMin);
+//   }
+
+//   return res;
+// };
+
+// console.log(maxProduct([2, 3, -2, 4]));
+// console.log(maxProduct([-2, 0, -1]));
+
+// 다시 풀어보기
 /**
  * @param {number[]} nums
  * @return {number}
  */
 var maxProduct = function (nums) {
-  let res = Math.max(...nums);
+  let maxNumber = Math.max(...nums);
 
-  let curMin = 1;
   let curMax = 1;
+  let curMin = 1;
 
   for (const n of nums) {
     if (n === 0) {
@@ -120,13 +149,13 @@ var maxProduct = function (nums) {
       curMin = 1;
       continue;
     }
-    tmp = curMax * n;
-    curMax = Math.max(n * curMax, n * curMin, n); // 자기 자신이 될 수도 있음
-    curMin = Math.min(tmp, n * curMin, n);
-    res = Math.max(res, curMax, curMin);
+    temp = curMax * n;
+    curMax = Math.max(temp, n, curMin * n);
+    curMin = Math.min(temp, n, curMin * n);
+    maxNumber = Math.max(curMax, curMin, maxNumber);
   }
 
-  return res;
+  return maxNumber;
 };
 
 console.log(maxProduct([2, 3, -2, 4]));
