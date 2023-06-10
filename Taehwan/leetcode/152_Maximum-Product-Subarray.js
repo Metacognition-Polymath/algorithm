@@ -137,26 +137,79 @@ Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
  * @param {number[]} nums
  * @return {number}
  */
-var maxProduct = function (nums) {
-  let maxNumber = Math.max(...nums);
+// var maxProduct = function (nums) {
+//   let maxNumber = Math.max(...nums); // 초기 최대값은 숫자중 제일 큰 수
 
+//   let curMax = 1; // 곱해야 하므로 초기값은 1이 됨
+//   // curMin을 구하는 이유는 최소 값이 음수이고 현재 숫자가일 때 음수 * 음수로 최대값이 나올 수 있기 때문
+//   let curMin = 1; // 곱해야 하므로 초기값은 1이 됨
+
+//   for (const n of nums) {
+//     if (n === 0) {
+//       // 현재 숫자가 0이면 다음 숫자에서 curMax가 초기화 되기 때문
+//       curMax = 1;
+//       curMin = 1;
+//       continue;
+//     }
+//     temp = curMax * n; // 최대값과 곱을 임시 저장
+//     curMax = Math.max(temp, n, curMin * n);
+//     curMin = Math.min(temp, n, curMin * n);
+//     maxNumber = Math.max(curMax, curMin, maxNumber);
+//   }
+
+//   return maxNumber;
+// };
+
+// console.log(maxProduct([2, 3, -2, 4]));
+// console.log(maxProduct([-2, 0, -1]));
+
+// 다시 풀어보기 2회차
+// var maxProduct = function (nums) {
+//   let maxNumber = Math.max(...nums);
+
+//   let curMax = 1; //
+//   let curMin = 1;
+
+//   for (const num of nums) {
+//     if (num === 0) {
+//       curMax = 1;
+//       curMin = 1;
+//       continue;
+//     } else {
+//       const temp = curMax * num;
+//       curMax = Math.max(temp, num, curMin * num);
+//       curMin = Math.min(temp, num, curMin * num);
+//       maxNumber = Math.max(curMax, curMin, maxNumber);
+//     }
+//   }
+
+//   return maxNumber;
+// };
+
+// console.log(maxProduct([2, 3, -2, 4]));
+// console.log(maxProduct([-2, 0, -1]));
+
+// 다시 풀어보기 3회차
+var maxProduct = function (nums) {
+  let maxNum = Math.max(...nums);
   let curMax = 1;
   let curMin = 1;
 
-  for (const n of nums) {
-    if (n === 0) {
+  for (const num of nums) {
+    if (num === 0) {
+      // 초기화
       curMax = 1;
       curMin = 1;
-      continue;
+    } else {
+      const temp = curMax * num;
+      curMax = Math.max(temp, num, curMin * num); // curMin * num 이 핵심 !!
+      curMin = Math.max(temp, num, curMin * num);
+      maxNum = Math.max(curMax, curMin, maxNum);
     }
-    temp = curMax * n;
-    curMax = Math.max(temp, n, curMin * n);
-    curMin = Math.min(temp, n, curMin * n);
-    maxNumber = Math.max(curMax, curMin, maxNumber);
   }
 
-  return maxNumber;
+  return maxNum;
 };
 
-console.log(maxProduct([2, 3, -2, 4]));
+console.log(maxProduct([2, 3, -2, 4, 2]));
 console.log(maxProduct([-2, 0, -1]));
