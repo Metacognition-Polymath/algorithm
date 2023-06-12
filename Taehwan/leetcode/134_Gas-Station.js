@@ -58,6 +58,40 @@
 // console.log(canCompleteCircuit([2, 3, 4], [3, 4, 3]));
 
 // 정답해설
+// /**
+//  * @param {number[]} gas
+//  * @param {number[]} cost
+//  * @return {number}
+//  */
+// var canCompleteCircuit = function (gas, cost) {
+//   let gasSum = 0;
+//   let costSum = 0;
+//   for (let i = 0; i < gas.length; i++) {
+//     gasSum += gas[i];
+//     costSum += cost[i];
+//   }
+//   if (gasSum < costSum) {
+//     return -1;
+//   }
+
+//   let total = 0;
+//   res = 0; // starting position
+//   for (let i = 0; i < gas.length; i++) {
+//     const diff = gas[i] - cost[i];
+//     total += diff;
+//     if (total < 0) {
+//       total = 0;
+//       res = i + 1;
+//     }
+//   }
+
+//   return res;
+// };
+
+// console.log(canCompleteCircuit([1, 2, 3, 4, 5], [3, 4, 5, 1, 2]));
+// console.log(canCompleteCircuit([2, 3, 4], [3, 4, 3]));
+
+// 다시 풀어보기
 /**
  * @param {number[]} gas
  * @param {number[]} cost
@@ -70,22 +104,22 @@ var canCompleteCircuit = function (gas, cost) {
     gasSum += gas[i];
     costSum += cost[i];
   }
-  if (gasSum < costSum) {
+
+  if (costSum > gasSum) {
     return -1;
   }
 
+  let index = 0;
   let total = 0;
-  res = 0; // starting position
   for (let i = 0; i < gas.length; i++) {
     const diff = gas[i] - cost[i];
     total += diff;
     if (total < 0) {
-      total = 0;
-      res = i + 1;
+      total = 0; // it's the key of the solution !
+      index++;
     }
   }
-
-  return res;
+  return index;
 };
 
 console.log(canCompleteCircuit([1, 2, 3, 4, 5], [3, 4, 5, 1, 2]));
