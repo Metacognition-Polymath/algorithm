@@ -48,34 +48,83 @@
 //   return Math.max(...meetingCountArr);
 // }
 
+// /**
+//  * 강의 해설
+//  * @param {number[][]} meeting
+//  * 대표적인 그리디 문제
+//  * 그리디
+//  * - 정렬 하고 쭉 선택한다
+//  */
+// function solution(meeting) {
+//   /**
+//    * 빨리 끝나는 시간 순으로 정렬한다
+//    * 끝나는 시간이 같으면 시작시간이 빠른 순으로 정렬을 해야 된다
+//    */
+//   let answer = 0;
+//   meeting.sort((a, b) => {
+//     if (a[1] === b[1]) {
+//       // 끝나는 시간이 같으면 시작시간이 빠른 순으로 정렬
+//       return a[0] - b[0];
+//     } else {
+//       // 끝나는 시간이 다르면 빨리 끝나는 시간 순으로 정렬
+//       return a[1] - b[1];
+//     }
+//   });
+
+//   let et = 0; // end time
+//   for (let x of meeting) {
+//     // 시작 시간이 기존에 끝나는 시간보다 크면 회의를 카운트
+//     if (x[0] >= et) {
+//       answer++;
+//       et = x[1]; // 끝나는 시간을 갱신
+//     }
+//   }
+//   return answer;
+// }
+
+// // [시작시간, 종료시간]
+// let arr = [
+//   [1, 4],
+//   [2, 3],
+//   [3, 5],
+//   [4, 6],
+//   [5, 7],
+// ]; // => 3
+// // let arr = [
+// //   [3, 3],
+// //   [1, 3],
+// //   [2, 3],
+// // ]; // => 2
+// console.log(solution(arr));
+
+// 복습 1회차
 /**
- * 강의 해설
- * @param {number[][]} meeting
  * 대표적인 그리디 문제
- * 그리디
- * - 정렬 하고 쭉 선택한다
+ * @param {number[][]} meeting
  */
-function solution(meeting) {
-  /**
-   * 빨리 끝나는 시간 순으로 정렬한다
-   * 끝나는 시간이 같으면 시작시간이 빠른 순으로 정렬을 해야 된다
-   */
-  let answer = 0;
-  meeting.sort((a, b) => {
-    if (a[1] === b[1]) {
-      return a[0] - b[0];
+function solution(meetingList) {
+  // 1. 회의 목록을 끝나는 시간을 기준으로 정렬
+  // - 끝나는 시간이 같은 경우 시작시간으로 정렬
+  meetingList.sort((meetingA, meetingB) => {
+    const [AStart, AEnd] = meetingA;
+    const [BStart, BEnd] = meetingB;
+    if (AEnd === BEnd) {
+      return AStart - BStart; // 오름 차순(작은 것이 앞으로) <-> 내림 차순(B - A)
     } else {
-      return a[1] - b[1];
+      return AEnd - BEnd;
     }
   });
-  let et = 0; // end time
-  for (let x of meeting) {
-    if (x[0] >= et) {
-      answer++;
-      et = x[1];
+
+  let tempEndTime = 0;
+  let meetingCount = 0;
+  meetingList.forEach((meeting) => {
+    const [startTime, endTime] = meeting;
+    if (startTime >= tempEndTime) {
+      meetingCount++;
+      tempEndTime = endTime;
     }
-  }
-  return answer;
+  });
+  return meetingCount;
 }
 
 // [시작시간, 종료시간]
