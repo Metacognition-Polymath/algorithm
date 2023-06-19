@@ -54,23 +54,51 @@
  * - 중앙값 정하고
  * - lt, rt를 욺직인다
  */
-function solution(target, arr) {
-  let answer;
+// function solution(target, arr) {
+//   let answer;
 
+//   arr.sort((a, b) => a - b); // 오름차순 정렬
+//   let lt = 0; // 왼쪽 끝 포인터
+//   let rt = arr.length - 1; // 오른쪽 끝 포인터
+//   while (lt <= rt) { // 포인터가 만날 때 탈출
+//     let mid = parseInt((lt + rt) / 2); // 중앙값
+//     if (arr[mid] === target) {
+//       answer = mid + 1; // index + 1 => n번째
+//       break; // 중앙값과 일치하면 탈출
+//     } else if (arr[mid] > target) { // 중앙값 보다 작을 때(왼쪽에 있는 경우)
+//       rt = mid - 1; // 오른쪽 포인터를 중앙값 - 1로 이동
+//     } else lt = mid + 1; // 중앙값 보다 큰 경우 -> 왼쪽 포인터를 중앙값 + 1로 이동
+//   }
+
+//   return answer;
+// }
+
+// let arr = [23, 87, 65, 12, 57, 32, 99, 81];
+// console.log(solution(32, arr));
+
+// 복습 1회차
+/**
+ * @param {number} target
+ * @param {number[]} arr
+ */
+function solution(target, arr) {
+  // 오름차순 정렬
   arr.sort((a, b) => a - b);
+
+  // 이분 검색을 위한 포인터
   let lt = 0;
   let rt = arr.length - 1;
+
   while (lt <= rt) {
-    let mid = parseInt((lt + rt) / 2);
+    const mid = Math.floor((lt + rt) / 2);
     if (arr[mid] === target) {
-      answer = mid + 1;
-      break;
+      return mid + 1;
     } else if (arr[mid] > target) {
       rt = mid - 1;
-    } else lt = mid + 1;
+    } else {
+      lt = mid + 1;
+    }
   }
-
-  return answer;
 }
 
 let arr = [23, 87, 65, 12, 57, 32, 99, 81];
