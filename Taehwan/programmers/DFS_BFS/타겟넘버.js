@@ -16,22 +16,67 @@
  * [1, 1, 1, 1, 1]	3	5
  * [4, 1, 2, 1] 4 2
  */
+// function solution(numbers, target) {
+//   var answer = 0;
+//   const dfs = (idx, sum) => {
+//     if (idx === numbers.length) {
+//       if (sum === target) {
+//         answer++;
+//       }
+//       return;
+//     }
+//     dfs(idx + 1, sum + numbers[idx]);
+//     dfs(idx + 1, sum - numbers[idx]);
+//   };
+//   dfs(0, 0);
+
+//   return answer;
+// }
+
+// console.log(solution([1, 1, 1, 1, 1], 3));
+// console.log(solution([4, 1, 2, 1], 4));
+
+// 복습 1회차
+// function solution(numbers, target) {
+//   let count = 0;
+//   const dfs = (level, acc) => {
+//     if (level === numbers.length) {
+//       if (acc === target) {
+//         count++;
+//       }
+//     } else {
+//       dfs(level + 1, acc + numbers[level]);
+//       dfs(level + 1, acc - numbers[level]);
+//     }
+//   };
+
+//   dfs(0, 0);
+
+//   return count;
+// }
+
+// console.log(solution([1, 1, 1, 1, 1], 3)); // 5
+// console.log(solution([4, 1, 2, 1], 4)); // 2
+
+// 복습 1-1회차
 function solution(numbers, target) {
-  var answer = 0;
+  let count = 0;
   const dfs = (idx, sum) => {
     if (idx === numbers.length) {
       if (sum === target) {
-        answer++;
+        count++;
       }
       return;
     }
+
     dfs(idx + 1, sum + numbers[idx]);
     dfs(idx + 1, sum - numbers[idx]);
   };
+
   dfs(0, 0);
 
-  return answer;
+  return count;
 }
 
-console.log(solution([1, 1, 1, 1, 1], 3));
-console.log(solution([4, 1, 2, 1], 4));
+console.log(solution([1, 1, 1, 1, 1], 3)); // 5
+console.log(solution([4, 1, 2, 1], 4)); // 2
