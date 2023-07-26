@@ -122,46 +122,117 @@
  * BFS 알고리즘은 시작 위치에서부터 단계별로 탐색하며 최단거리를 구하는 특성을 가지고 있기 때문에 이 문제에 적합합니다.
  */
 
+// /**
+//  * 다시 풀어보기
+//  * @param {number[][]} maps
+//  */
+// function solution(maps) {
+//   const rows = maps.length;
+//   const cols = maps[0].length;
+
+//   // 이동 방향
+//   const dx = [-1, 1, 0, 0];
+//   const dy = [0, 0, -1, 1];
+
+//   // BFS 큐
+//   const queue = [];
+
+//   const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
+
+//   queue.push([0, 0, 1]); // x, y, count
+//   visited[0][0] = true;
+
+//   while (queue.length) {
+//     const [curX, curY, count] = queue.shift();
+
+//     if (curX === cols - 1 && curY === rows - 1) {
+//       return count;
+//     }
+
+//     for (let i = 0; i < dx.length; i++) {
+//       const nx = dx[i] + curX;
+//       const ny = dy[i] + curY;
+//       if (
+//         nx >= 0 &&
+//         ny >= 0 &&
+//         nx < cols &&
+//         ny < rows &&
+//         maps[ny][nx] === 1 &&
+//         !visited[ny][nx]
+//       ) {
+//         queue.push([nx, ny, count + 1]);
+//         visited[ny][nx] = true;
+//       }
+//     }
+//   }
+
+//   return -1;
+// }
+
+// console.log(
+//   solution([
+//     [1, 0, 1, 1, 1],
+//     [1, 0, 1, 0, 1],
+//     [1, 0, 1, 1, 1],
+//     [1, 1, 1, 0, 1],
+//     [0, 0, 0, 0, 1],
+//   ])
+// );
+
+// console.log(
+//   solution([
+//     [1, 0, 1, 1, 1],
+//     [1, 0, 1, 0, 1],
+//     [1, 0, 1, 1, 1],
+//     [1, 1, 1, 0, 0],
+//     [0, 0, 0, 0, 1],
+//   ])
+// );
+
 /**
- * 다시 풀어보기
+ * 복습 1회차
  * @param {number[][]} maps
  */
 function solution(maps) {
-  const rows = maps.length;
-  const cols = maps[0].length;
+  const rowsLength = maps.length;
+  const colsLength = maps?.[0].length ?? 0;
 
-  // 이동 방향
-  const dx = [-1, 1, 0, 0];
-  const dy = [0, 0, -1, 1];
+  // 움직일 수 있는 경우의 수
+  const dr = [-1, 1, 0, 0];
+  const dc = [0, 0, -1, 1];
+
+  // 방문한 곳 체크
+  const visited = Array.from({ length: rowsLength }, () =>
+    Array(colsLength).fill(false)
+  );
 
   // BFS 큐
-  const queue = [];
-
-  const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
-
-  queue.push([0, 0, 1]); // x, y, count
+  const queue = []; // [row, col, stepCount];
+  queue.push([0, 0, 1]);
   visited[0][0] = true;
 
+  // BFS 순회 : 단계적으로 순회하기 때문에 최단거리를 구할 수 있다
   while (queue.length) {
-    const [curX, curY, count] = queue.shift();
+    const [curRow, curCol, stepCount] = queue.shift();
 
-    if (curX === cols - 1 && curY === rows - 1) {
-      return count;
+    if (curRow === rowsLength - 1 && curCol === colsLength - 1) {
+      return stepCount;
     }
 
-    for (let i = 0; i < dx.length; i++) {
-      const nx = dx[i] + curX;
-      const ny = dy[i] + curY;
+    for (let i = 0; i < dr.length; i++) {
+      const nextRow = curRow + dr[i];
+      const nextCol = curCol + dc[i];
+
       if (
-        nx >= 0 &&
-        ny >= 0 &&
-        nx < cols &&
-        ny < rows &&
-        maps[ny][nx] === 1 &&
-        !visited[ny][nx]
+        nextRow >= 0 &&
+        nextCol >= 0 &&
+        nextRow < rowsLength &&
+        nextCol < colsLength &&
+        !visited[nextRow][nextCol] &&
+        maps[nextRow][nextCol] === 1
       ) {
-        queue.push([nx, ny, count + 1]);
-        visited[ny][nx] = true;
+        queue.push([nextRow, nextCol, stepCount + 1]);
+        visited[nextRow][nextCol] = true;
       }
     }
   }
