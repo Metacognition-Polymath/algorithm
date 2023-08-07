@@ -64,5 +64,7 @@ function check(word, target) {
   return count === 1 ? true : false;
 }
 
-// console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"])); // 4
-console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"])); // 0
+console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"])); // 4
+// console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"])); // 0
+
+// 단어 자체를 교체 해버리는 것이었다 - 단어의 한 글자를 바꾸는 것이 아니었음
