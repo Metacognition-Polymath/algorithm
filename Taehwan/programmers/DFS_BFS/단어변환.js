@@ -70,16 +70,58 @@ begin / target / words => return
 // 단어 자체를 교체 해버리는 것이었다 - 단어의 한 글자를 바꾸는 것이 아니었음
 
 // 복습 1회차
-function solution(begin, target, words) {
-  // 접근 : 한글자 씩 교체 가능한 단어를 교체해서 target 단어랑 같으면 빠져나간다
-  // BFS로 순회하기 때문에 처음으로 발견 가능한 것이 답이 된다
+// function solution(begin, target, words) {
+//   // 접근 : 한글자 씩 교체 가능한 단어를 교체해서 target 단어랑 같으면 빠져나간다
+//   // BFS로 순회하기 때문에 처음으로 발견 가능한 것이 답이 된다
 
+//   const visited = Array.from({ length: words.length }, () => false);
+//   const queue = []; // [word, count][]
+
+//   queue.push([begin, 0]);
+
+//   let answer = 0;
+//   while (queue.length) {
+//     const [word, count] = queue.shift();
+
+//     if (word === target) {
+//       answer = count;
+//       break;
+//     }
+
+//     for (let i = 0; i < words.length; i++) {
+//       if (!visited[i] && check(word, words[i])) {
+//         // 교체한적이 없고 한글자만 다른 것
+//         visited[i] = true;
+//         queue.push([words[i], count + 1]);
+//       }
+//     }
+//   }
+
+//   return answer;
+// }
+
+// function check(word1, word2) {
+//   let count = 0;
+//   for (let i = 0; i < word1.length; i++) {
+//     if (word1[i] !== word2[i]) {
+//       // 다른 경우에 카운트를 해야 함
+//       count++;
+//     }
+//   }
+//   return count === 1 ? true : false;
+// }
+
+// console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"])); // 4
+// console.log(solution("hit", "cog", ["hot", "dot", "dog", "lot", "log"])); // 0
+
+// 복습 2회차
+function solution(begin, target, words) {
+  let answer = 0;
   const visited = Array.from({ length: words.length }, () => false);
   const queue = []; // [word, count][]
 
   queue.push([begin, 0]);
 
-  let answer = 0;
   while (queue.length) {
     const [word, count] = queue.shift();
 
@@ -90,7 +132,6 @@ function solution(begin, target, words) {
 
     for (let i = 0; i < words.length; i++) {
       if (!visited[i] && check(word, words[i])) {
-        // 교체한적이 없고 한글자만 다른 것
         visited[i] = true;
         queue.push([words[i], count + 1]);
       }
