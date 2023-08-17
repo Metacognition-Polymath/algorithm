@@ -218,7 +218,82 @@
 // ); // Output: 17
 
 // 따라 풀어보기
-function solution1(rectangle, characterX, characterY, itemX, itemY) {
+// function solution1(rectangle, characterX, characterY, itemX, itemY) {
+//   // 1) 좌표를 2배로 늘린다
+//   characterX *= 2;
+//   characterY *= 2;
+//   itemX *= 2;
+//   itemY *= 2;
+//   const doubleRec = rectangle.map((rec) => rec.map((point) => point * 2));
+
+//   // 2) 위, 아래, 우측, 좌측 방향 설정
+//   const dx = [1, -1, 0, 0];
+//   const dy = [0, 0, 1, -1];
+
+//   // 3) 시작 위치를 최초의 큐에 담는다
+//   const queue = [];
+//   queue.push([characterX, characterY, 0]);
+
+//   // 4) 움직일 수 있는 좌표를 2차원 배열로 정의하여 모두 0으로 채운다
+//   const range = Array.from(Array(103), () => Array(103).fill(0));
+
+//   // 5) 테두리는 1, 테두리의 내부는 2로 값을 변경한다
+//   doubleRec.forEach(([x1, y1, x2, y2]) => {
+//     for (let x = x1; x <= x2; x++) {
+//       for (let y = y1; y <= y2; y++) {
+//         if (x === x1 || x === x2 || y === y1 || y === y2) {
+//           if (range[x][y] === 0) range[x][y] = 1;
+//         } else {
+//           range[x][y] = 2;
+//         }
+//       }
+//     }
+//   });
+
+//   // 6) 시작 위치를 0으로 변경하여 다시 돌아가지 못하게 한다
+//   range[characterX][characterY] = 0;
+
+//   // 7) 큐에 담긴 값이 없을 때(도착지점에 도착했을 때)까지 반복한다
+//   while (queue.length) {
+//     // 8) 처음 값(shift)을 가져와 BFS 탐색을 한다
+//     const [x, y, count] = queue.shift();
+
+//     // 9) 현재 위치가 도착 위치에 도달하면 리턴한다
+//     if (x === itemX && y === itemY) return count / 2;
+
+//     // 10) 도착하지 않았다면 움직일 수 있는(1인 경우) 좌표 값과 횟수를 큐에 담는다
+//     for (let i = 0; i < dx.length; i++) {
+//       const nx = x + dx[i];
+//       const ny = y + dy[i];
+
+//       if (range[nx][ny] === 1) {
+//         queue.push([nx, ny, count + 1]);
+//         range[nx][ny] = 0;
+//       }
+//     }
+//   }
+
+//   return 0;
+// }
+
+// // Test case
+// console.log(
+//   solution1(
+//     [
+//       [1, 1, 7, 4],
+//       [3, 2, 5, 5],
+//       [4, 3, 6, 9],
+//       [2, 6, 8, 8],
+//     ],
+//     1,
+//     3,
+//     7,
+//     8
+//   )
+// ); // Output: 17
+
+// 복습 1회차
+function solution(rectangle, characterX, characterY, itemX, itemY) {
   // 1) 좌표를 2배로 늘린다
   characterX *= 2;
   characterY *= 2;
@@ -226,59 +301,57 @@ function solution1(rectangle, characterX, characterY, itemX, itemY) {
   itemY *= 2;
   const doubleRec = rectangle.map((rec) => rec.map((point) => point * 2));
 
-  // 2) 위, 아래, 우측, 좌측 방향 설정
-  const dx = [1, -1, 0, 0];
-  const dy = [0, 0, 1, -1];
+  const map = Array.from({ length: 103 }, () => Array(103).fill(0));
 
-  // 3) 시작 위치를 최초의 큐에 담는다
-  const queue = [];
-  queue.push([characterX, characterY, 0]);
-
-  // 4) 움직일 수 있는 좌표를 2차원 배열로 정의하여 모두 0으로 채운다
-  const range = Array.from(Array(103), () => Array(103).fill(0));
-
-  // 5) 테두리는 1, 테두리의 내부는 2로 값을 변경한다
-  doubleRec.forEach(([x1, y1, x2, y2]) => {
-    for (let x = x1; x <= x2; x++) {
-      for (let y = y1; y <= y2; y++) {
-        if (x === x1 || x === x2 || y === y1 || y === y2) {
-          if (range[x][y] === 0) range[x][y] = 1;
+  for (let i = 0; i < doubleRec.length; i++) {
+    const rec = doubleRec[i];
+    const [x1, y1, x2, y2] = rec;
+    for (let y = y1; y <= y2; y++) {
+      for (let x = x1; x <= x2; x++) {
+        if (y === y1 || y === y2 || x === x1 || x === x2) {
+          if (map[y][x] === 0) {
+            map[y][x] = 1;
+          }
         } else {
-          range[x][y] = 2;
+          map[y][x] = 2;
         }
-      }
-    }
-  });
-
-  // 6) 시작 위치를 0으로 변경하여 다시 돌아가지 못하게 한다
-  range[characterX][characterY] = 0;
-
-  // 7) 큐에 담긴 값이 없을 때(도착지점에 도착했을 때)까지 반복한다
-  while (queue.length) {
-    // 8) 처음 값(shift)을 가져와 BFS 탐색을 한다
-    const [x, y, count] = queue.shift();
-
-    // 9) 현재 위치가 도착 위치에 도달하면 리턴한다
-    if (x === itemX && y === itemY) return count / 2;
-
-    // 10) 도착하지 않았다면 움직일 수 있는(1인 경우) 좌표 값과 횟수를 큐에 담는다
-    for (let i = 0; i < dx.length; i++) {
-      const nx = x + dx[i];
-      const ny = y + dy[i];
-
-      if (range[nx][ny] === 1) {
-        queue.push([nx, ny, count + 1]);
-        range[nx][ny] = 0;
       }
     }
   }
 
-  return 0;
+  const dx = [1, -1, 0, 0];
+  const dy = [0, 0, 1, -1];
+
+  const queue = []; // [x, y, count]
+  queue.push([characterX, characterY, 0]);
+  map[characterY][characterX] = 3;
+
+  let answer = 0;
+
+  while (queue.length) {
+    const [curX, curY, count] = queue.shift();
+    if (curX === itemX && curY === itemY) {
+      answer = count / 2;
+      break;
+    }
+
+    for (let i = 0; i < dx.length; i++) {
+      const nx = curX + dx[i];
+      const ny = curY + dy[i];
+
+      if (nx >= 0 && ny >= 0 && nx < 103 && ny < 103 && map[ny][nx] === 1) {
+        map[ny][nx] = 3;
+        queue.push([nx, ny, count + 1]);
+      }
+    }
+  }
+
+  return answer;
 }
 
 // Test case
 console.log(
-  solution1(
+  solution(
     [
       [1, 1, 7, 4],
       [3, 2, 5, 5],
