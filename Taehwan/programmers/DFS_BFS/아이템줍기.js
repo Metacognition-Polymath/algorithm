@@ -293,22 +293,97 @@
 // ); // Output: 17
 
 // 복습 1회차
+// function solution(rectangle, characterX, characterY, itemX, itemY) {
+//   // 1) 좌표를 2배로 늘린다
+//   characterX *= 2;
+//   characterY *= 2;
+//   itemX *= 2;
+//   itemY *= 2;
+//   const doubleRec = rectangle.map((rec) => rec.map((point) => point * 2));
+
+//   const map = Array.from({ length: 103 }, () => Array(103).fill(0));
+
+//   for (let i = 0; i < doubleRec.length; i++) {
+//     const rec = doubleRec[i];
+//     const [x1, y1, x2, y2] = rec;
+//     for (let y = y1; y <= y2; y++) {
+//       for (let x = x1; x <= x2; x++) {
+//         if (y === y1 || y === y2 || x === x1 || x === x2) {
+//           if (map[y][x] === 0) {
+//             map[y][x] = 1;
+//           }
+//         } else {
+//           map[y][x] = 2;
+//         }
+//       }
+//     }
+//   }
+
+//   const dx = [1, -1, 0, 0];
+//   const dy = [0, 0, 1, -1];
+
+//   const queue = []; // [x, y, count]
+//   queue.push([characterX, characterY, 0]);
+//   map[characterY][characterX] = 3;
+
+//   let answer = 0;
+
+//   while (queue.length) {
+//     const [curX, curY, count] = queue.shift();
+//     if (curX === itemX && curY === itemY) {
+//       answer = count / 2;
+//       break;
+//     }
+
+//     for (let i = 0; i < dx.length; i++) {
+//       const nx = curX + dx[i];
+//       const ny = curY + dy[i];
+
+//       if (nx >= 0 && ny >= 0 && nx < 103 && ny < 103 && map[ny][nx] === 1) {
+//         map[ny][nx] = 3;
+//         queue.push([nx, ny, count + 1]);
+//       }
+//     }
+//   }
+
+//   return answer;
+// }
+
+// // Test case
+// console.log(
+//   solution(
+//     [
+//       [1, 1, 7, 4],
+//       [3, 2, 5, 5],
+//       [4, 3, 6, 9],
+//       [2, 6, 8, 8],
+//     ],
+//     1,
+//     3,
+//     7,
+//     8
+//   )
+// ); // Output: 17
+
+// 복습 2회차
 function solution(rectangle, characterX, characterY, itemX, itemY) {
-  // 1) 좌표를 2배로 늘린다
-  characterX *= 2;
-  characterY *= 2;
-  itemX *= 2;
-  itemY *= 2;
-  const doubleRec = rectangle.map((rec) => rec.map((point) => point * 2));
+  let answer = 0;
+
+  // 맵에 그대로 그리면 근접한 부분을 표현할 수 없기 때문에 두 배로 확대
+  const characterX2 = characterX * 2;
+  const characterY2 = characterY * 2;
+  const itemX2 = itemX * 2;
+  const itemY2 = itemY * 2;
+  // !! doubleRec를 빼먹었음
+  const doubleRec = rectangle.map((rec) => rec.map((p) => p * 2));
 
   const map = Array.from({ length: 103 }, () => Array(103).fill(0));
 
-  for (let i = 0; i < doubleRec.length; i++) {
-    const rec = doubleRec[i];
-    const [x1, y1, x2, y2] = rec;
+  for (const [x1, y1, x2, y2] of doubleRec) {
     for (let y = y1; y <= y2; y++) {
       for (let x = x1; x <= x2; x++) {
-        if (y === y1 || y === y2 || x === x1 || x === x2) {
+        if (x === x1 || x === x2 || y === y1 || y === y2) {
+          // !! map[y][x] === 0
           if (map[y][x] === 0) {
             map[y][x] = 1;
           }
@@ -322,15 +397,15 @@ function solution(rectangle, characterX, characterY, itemX, itemY) {
   const dx = [1, -1, 0, 0];
   const dy = [0, 0, 1, -1];
 
-  const queue = []; // [x, y, count]
-  queue.push([characterX, characterY, 0]);
-  map[characterY][characterX] = 3;
-
-  let answer = 0;
+  // BFS -> 최단 거리
+  const queue = []; // [x, y, count][]
+  queue.push([characterX2, characterY2, 0]);
+  map[characterY2][characterX2] = 3; // 밟은 곳 = 3;
 
   while (queue.length) {
     const [curX, curY, count] = queue.shift();
-    if (curX === itemX && curY === itemY) {
+
+    if (curX === itemX2 && curY === itemY2) {
       answer = count / 2;
       break;
     }
