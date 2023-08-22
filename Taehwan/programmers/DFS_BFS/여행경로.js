@@ -125,6 +125,56 @@ tickets의 각 행 [a, b]는 a 공항에서 b 공항으로 가는 항공권이 �
  */
 
 // 다시 풀어보기
+// function solution(tickets) {
+//   const graph = {}; // 그래프 생성
+
+//   // 그래프 초기화
+//   for (const [from, to] of tickets) {
+//     if (!graph[from]) {
+//       graph[from] = [];
+//     }
+//     graph[from].push(to);
+//   }
+
+//   // 그래프 정렬
+//   // for in 은 object를 순회하면서 key를 리턴
+//   for (const key in graph) {
+//     // 오름 차순 정렬
+//     graph[key].sort((a, b) => (a > b ? 1 : -1));
+//   }
+
+//   // console.log(graph);
+
+//   const answer = [];
+
+//   const dfs = (node) => {
+//     const destinations = graph[node];
+
+//     while (destinations && destinations.length > 0) {
+//       const nextNode = destinations.shift();
+//       dfs(nextNode);
+//     }
+
+//     // 런타임 에러, 중복 티켓팅 방지를 위해 뒤에 배치
+//     answer.push(node);
+//   };
+
+//   dfs("ICN");
+
+//   return answer.reverse();
+// }
+
+// console.log(
+//   solution([
+//     ["ICN", "SFO"],
+//     ["ICN", "ATL"],
+//     ["SFO", "ATL"],
+//     ["ATL", "ICN"],
+//     ["ATL", "SFO"],
+//   ])
+// ); // [ 'ICN', 'ATL', 'ICN', 'SFO', 'ATL', 'SFO' ]
+
+// 복습 1회차
 function solution(tickets) {
   const graph = {}; // 그래프 생성
 
@@ -133,35 +183,31 @@ function solution(tickets) {
     if (!graph[from]) {
       graph[from] = [];
     }
-    graph[from].push(to);
+    graph[from] = [...graph[from], to];
   }
 
   // 그래프 정렬
-  // for in 은 object를 순회하면서 key를 리턴
   for (const key in graph) {
-    // 오름 차순 정렬
-    graph[key].sort((a, b) => (a > b ? 1 : -1));
+    graph[key].sort((a, b) => (a > b ? -1 : 1)); // 내림 차순 정렬 => pop() => 오름 차순으로 나옴
   }
-
-  // console.log(graph);
 
   const answer = [];
 
+  // graph[node]에서 하나씩 다음 경로로 이동
   const dfs = (node) => {
-    const destinations = graph[node];
-
-    while (destinations && destinations.length > 0) {
-      const nextNode = destinations.shift();
-      dfs(nextNode);
-    }
-
-    // 런타임 에러, 중복 티켓팅 방지를 위해 뒤에 배치
+    // while문으로 뽑아내는 이유 찾아보기
     answer.push(node);
+    if (graph[node]) {
+      const nextNode = graph[node].pop();
+      if (nextNode) {
+        dfs(nextNode);
+      }
+    }
   };
 
   dfs("ICN");
 
-  return answer.reverse();
+  return answer;
 }
 
 console.log(
