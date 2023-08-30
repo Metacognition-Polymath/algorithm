@@ -221,6 +221,52 @@ tickets의 각 행 [a, b]는 a 공항에서 b 공항으로 가는 항공권이 �
 // ); // [ 'ICN', 'ATL', 'ICN', 'SFO', 'ATL', 'SFO' ]
 
 // 복습 2회차
+// function solution(tickets) {
+//   const graph = {}; // 그래프 생성
+
+//   // 그래프 초기화
+//   for (const [from, to] of tickets) {
+//     if (!graph[from]) {
+//       graph[from] = [];
+//     }
+//     graph[from] = [...graph[from], to];
+//   }
+
+//   // 그래프 정렬
+//   for (const key in graph) {
+//     graph[key].sort((a, b) => (a > b ? -1 : 1)); // 내림 차순 정렬 => pop() => 오름 차순으로 나옴
+//   }
+
+//   const answer = [];
+
+//   // graph[node]에서 하나씩 다음 경로로 이동
+//   const dfs = (node) => {
+//     answer.push(node);
+//     const nextNode = graph[node].pop();
+//     if (nextNode) {
+//       dfs(nextNode);
+//     }
+//   };
+
+//   dfs("ICN");
+
+//   return answer;
+// }
+
+// console.log(
+//   solution([
+//     ["ICN", "SFO"],
+//     ["ICN", "ATL"],
+//     ["SFO", "ATL"],
+//     ["ATL", "ICN"],
+//     ["ATL", "SFO"],
+//   ])
+// ); // [ 'ICN', 'ATL', 'ICN', 'SFO', 'ATL', 'SFO' ]
+
+// 복습 3회차
+/**
+ * @param {string[][]} tickets
+ */
 function solution(tickets) {
   const graph = {}; // 그래프 생성
 
@@ -229,28 +275,28 @@ function solution(tickets) {
     if (!graph[from]) {
       graph[from] = [];
     }
-    graph[from] = [...graph[from], to];
+    graph[from].push(to);
   }
 
   // 그래프 정렬
   for (const key in graph) {
-    graph[key].sort((a, b) => (a > b ? -1 : 1)); // 내림 차순 정렬 => pop() => 오름 차순으로 나옴
+    graph[key].sort((a, b) => (a > b ? -1 : 1)); // 내림차순
   }
 
-  const answer = [];
+  const path = [];
 
-  // graph[node]에서 하나씩 다음 경로로 이동
-  const dfs = (node) => {
-    answer.push(node);
-    const nextNode = graph[node].pop();
-    if (nextNode) {
-      dfs(nextNode);
+  // dfs
+  const dfs = (from) => {
+    path.push(from);
+    const to = graph[from].pop();
+    if (to) {
+      dfs(to);
     }
   };
 
   dfs("ICN");
 
-  return answer;
+  return path;
 }
 
 console.log(
