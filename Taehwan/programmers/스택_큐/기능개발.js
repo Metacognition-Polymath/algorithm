@@ -85,6 +85,41 @@
 //   return answer;
 // }
 
+// /**
+//  *
+//  * @param {number[]} progresses
+//  * @param {number[]} speeds
+//  * @returns number[]
+//  */
+// function solution(progresses, speeds) {
+//   const answer = [];
+//   // 각 작업의 배포까지 걸리는 일수
+//   const days = progresses.map((progress, index) => {
+//     return Math.ceil((100 - progress) / speeds[index]);
+//   });
+
+//   // 배포까지 걸리는 일수 중 가장 큰 값 - 첫 번째가 100%가 되면 무조건 배포되므로 초기값으로 설정
+//   let max = days[0];
+//   // 배포까지 걸리는 일수 중 가장 큰 값보다 작거나 같은 값이 나오면 카운트
+//   let count = 1; // 배포되는 기능 수
+//   // 배포까지 걸리는 일수 중 가장 큰 값보다 큰 값이 나오면 카운트를 answer에 push
+//   for (let i = 1; i < days.length; i++) {
+//     if (days[i] <= max) {
+//       count++;
+//     } else {
+//       answer.push(count);
+//       max = days[i];
+//       count = 1;
+//     }
+//   }
+//   answer.push(count);
+
+//   return answer;
+// }
+
+// console.log(solution([93, 30, 55], [1, 30, 5])); // [2, 1]
+// console.log(solution([95, 90, 99, 99, 80, 99], [1, 1, 1, 1, 1, 1])); // [1, 3, 2]
+
 /**
  *
  * @param {number[]} progresses
@@ -92,30 +127,47 @@
  * @returns number[]
  */
 function solution(progresses, speeds) {
+  // 동시에 배포되는 기능의 개수 배열
   const answer = [];
-  // 각 작업의 배포까지 걸리는 일수
+
+  // 각 작업의 배포까지 걸리는 기간(일) 배열 - 여기에서 한번에 다 계산을 해서 for문으로 날짜를 하나씩 올리면서 확인할 필요가 없어짐
   const days = progresses.map((progress, index) => {
     return Math.ceil((100 - progress) / speeds[index]);
   });
 
-  // 배포까지 걸리는 일수 중 가장 큰 값 - 첫 번째가 100%가 되면 무조건 배포되므로 초기값으로 설정
-  let max = days[0];
-  // 배포까지 걸리는 일수 중 가장 큰 값보다 작거나 같은 값이 나오면 카운트
-  let count = 1; // 배포되는 기능 수
-  // 배포까지 걸리는 일수 중 가장 큰 값보다 큰 값이 나오면 카운트를 answer에 push
+  // 다음 배포까지 걸리는 기간(일)
+  let maxDay = days[0];
+  // 다음에 배포되는 기능 수
+  let releaseCount = 1;
+  // 첫 번째 배포는 무조건 1개 이상이고 두 번째 부터 같이 배포되는 지 검사하므로 1부터 시작
   for (let i = 1; i < days.length; i++) {
-    if (days[i] <= max) {
-      count++;
+    if (days[i] <= maxDay) {
+      // 다음 기능이 현재 배포되려는 기능이 배포될 때 완료되었는지 여부
+      releaseCount++;
     } else {
-      answer.push(count);
-      max = days[i];
-      count = 1;
+      // 다음 기능이 준비가 안되었다면 배포 후 다음 기능이 그 시작 점이 됨
+      answer.push(releaseCount);
+      maxDay = days[i];
+      releaseCount = 1;
     }
   }
-  answer.push(count);
+
+  // 다음 아이템이 존재한다면 else문에 의해 추가되지만 다음 아이템이 없다면 더 이상 for문을 돌지 않으므로
+  // 마지막 아이템은 한번 더 이렇게 추가해줘야 함
+  answer.push(releaseCount);
 
   return answer;
 }
 
+/**
+ * 이번 문제를 풀면서 느낀 점
+ * - 현재 주어진 문제의 단서만으로 풀기보다
+ * - 주어진 단서로 어떤 의미있는 데이터를 만들고 활용할 수 있는지 생각해보자
+ * - 주어진 문제의 단서 : 진행속도, 현재 진행률
+ * - 단서로 부터 새로 만든 의미있는 데이터 : 미리 수식으로 구해놓은 걸리는 기간(일)
+ */
+
 console.log(solution([93, 30, 55], [1, 30, 5])); // [2, 1]
+// 7, 4, 9
 console.log(solution([95, 90, 99, 99, 80, 99], [1, 1, 1, 1, 1, 1])); // [1, 3, 2]
+// 5, 10, 1, 1, 20, 1
