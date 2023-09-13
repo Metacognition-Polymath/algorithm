@@ -1,8 +1,5 @@
-type PickRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
-
 type Param = {
-  score: number;
-  rank?: number;
+  [key: string]: any;
 };
 /**
  * [
@@ -20,30 +17,34 @@ type Param = {
   ]
  */
 const addRankByScore = <T extends Param>(
-  params: T[]
-): PickRequired<T, "rank">[] => {
-  const sortedParams = [...params].sort((a, b) => b.score - a.score);
+  params: T[],
+  scoreField: keyof T = "score",
+  rankField: keyof T = "rank"
+): T[] => {
+  const sortedParams = [...params].sort(
+    (a, b) => b[scoreField] - a[scoreField]
+  );
   const rankByScore = {} as Record<number, number>; // { score: rank }
   let currentRank = 1;
   let previousScore = Number.MAX_SAFE_INTEGER;
 
   sortedParams.forEach((param) => {
-    if (param.score !== previousScore) {
-      rankByScore[param.score] = currentRank;
-      previousScore = param.score;
+    if (param[scoreField] !== previousScore) {
+      rankByScore[param[scoreField]] = currentRank;
+      previousScore = param[scoreField];
     }
     currentRank++;
   });
 
   return params.map((param) => ({
     ...param,
-    rank: rankByScore[param.score],
+    [rankField]: rankByScore[param[scoreField]],
   }));
 };
 
 console.log(
   addRankByScore([
-    { score: 90, id: 1 },
+    { score: 90, id: 1, name: "taehwan" },
     { score: 100, id: 2 },
     { score: 80, id: 3 },
     { score: 70, id: 4 },
