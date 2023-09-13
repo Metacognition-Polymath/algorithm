@@ -16,11 +16,12 @@ type Param = {
     { score: 90, rank: 2 },
   ]
  */
+// R has rankField with T
 const addRankByScore = <T extends Param>(
   params: T[],
   scoreField: keyof T = "score",
-  rankField: keyof T = "rank"
-): T[] => {
+  rankField: string = "rank"
+) => {
   const sortedParams = [...params].sort(
     (a, b) => b[scoreField] - a[scoreField]
   );
