@@ -52,16 +52,31 @@
 // console.log(solution([3, 30, 34, 5, 9]));
 
 // 다른 사람 풀이
+// function solution(numbers) {
+//   // 숫자 배열을 문자열로 변환하고 비교 함수를 사용하여 정렬
+//   const sortedNumbers = numbers.map(String).sort((a, b) => b + a - (a + b));
+
+//   // 만들어진 가장 큰 수가 0으로 시작할 경우, 결과는 "0"이어야 함
+//   if (sortedNumbers[0] === "0") {
+//     return "0";
+//   }
+
+//   // 가장 큰 수로 조합된 문자열 반환
+//   return sortedNumbers.join("");
+// }
+
+// // 테스트 예제
+// console.log(solution([6, 10, 2])); // "6210"
+// console.log(solution([3, 30, 34, 5, 9])); // "9534330"
+
+// 복습 1회차
 function solution(numbers) {
-  // 숫자 배열을 문자열로 변환하고 비교 함수를 사용하여 정렬
   const sortedNumbers = numbers.map(String).sort((a, b) => b + a - (a + b));
 
-  // 만들어진 가장 큰 수가 0으로 시작할 경우, 결과는 "0"이어야 함
   if (sortedNumbers[0] === "0") {
     return "0";
   }
 
-  // 가장 큰 수로 조합된 문자열 반환
   return sortedNumbers.join("");
 }
 
