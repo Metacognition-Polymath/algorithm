@@ -60,19 +60,72 @@
 // console.log(maxProfit([7, 6, 4, 3, 1]));
 
 // chat gpt
-var maxProfit = function (prices) {
-  if (!prices || prices.length === 0) {
-    return 0;
-  }
+// var maxProfit = function (prices) {
+//   if (!prices || prices.length === 0) {
+//     return 0;
+//   }
 
+//   let minPrice = prices[0]; // 처음 것을 최소값으로 설정하고
+//   let maxProfit = 0;
+
+//   // 두번째 것부터 시작해서
+//   for (let i = 1; i < prices.length; i++) {
+//     // 현재 값이 최소값보다 작으면 최소값을 현재 값으로 설정하고
+//     if (prices[i] < minPrice) {
+//       minPrice = prices[i];
+
+//       // 현재 값에서 최소값을 뺀 값이 최대값보다 크면 최대값을 현재 값에서 최소값을 뺀 값으로 설정한다.
+//     } else if (prices[i] - minPrice > maxProfit) {
+//       maxProfit = prices[i] - minPrice;
+//     }
+//   }
+
+//   return maxProfit;
+// };
+
+// // Test cases
+// console.log(maxProfit([7, 1, 5, 3, 6, 4])); // Output: 5
+// console.log(maxProfit([7, 6, 4, 3, 1])); // Output: 0
+
+// solve above problem using DFS
+// var maxProfit = function (prices) {
+//   const dfs = (index, minPrice, maxProfit) => {
+//     if (index === prices.length) {
+//       return maxProfit;
+//     }
+
+//     const currentPrice = prices[index];
+//     const profit = currentPrice - minPrice;
+//     if (profit > maxProfit) {
+//       maxProfit = profit;
+//     }
+//     if (currentPrice < minPrice) {
+//       minPrice = currentPrice;
+//     }
+
+//     return dfs(index + 1, minPrice, maxProfit);
+//   };
+
+//   return dfs(1, prices[0], 0);
+// };
+
+// // Test cases
+// console.log(maxProfit([7, 1, 5, 3, 6, 4])); // Output: 5
+// console.log(maxProfit([7, 6, 4, 3, 1])); // Output: 0
+
+// 복습
+var maxProfit = function (prices) {
   let minPrice = prices[0];
   let maxProfit = 0;
 
   for (let i = 1; i < prices.length; i++) {
-    if (prices[i] < minPrice) {
-      minPrice = prices[i];
-    } else if (prices[i] - minPrice > maxProfit) {
-      maxProfit = prices[i] - minPrice;
+    const currentPrice = prices[i];
+    if (minPrice > currentPrice) {
+      minPrice = currentPrice;
+    }
+    const currentProfit = currentPrice - minPrice;
+    if (currentProfit > maxProfit) {
+      maxProfit = currentProfit;
     }
   }
 
@@ -82,3 +135,4 @@ var maxProfit = function (prices) {
 // Test cases
 console.log(maxProfit([7, 1, 5, 3, 6, 4])); // Output: 5
 console.log(maxProfit([7, 6, 4, 3, 1])); // Output: 0
+console.log(maxProfit([1, 2])); // Output: 1
