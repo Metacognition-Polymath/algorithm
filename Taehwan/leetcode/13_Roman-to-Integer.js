@@ -121,6 +121,41 @@ It is guaranteed that s is a valid roman numeral in the range [1, 3999].
 //   return result;
 // };
 
+/**
+ * 먼저 로마 문자와 해당하는 값의 매핑을 정의합니다.
+결과값을 0으로 초기화합니다.
+문자열을 끝부터 시작까지 반복하면서:
+현재 문자의 값이 이전 문자의 값보다 크거나 같다면, 결과값에 더합니다.
+그렇지 않으면, 결과값에서 현재 문자의 값을 뺍니다.
+ */
+var romanToInt = function (s) {
+  const romanValues = {
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
+  };
+
+  let result = 0;
+  let prevValue = 0;
+
+  for (let i = s.length - 1; i >= 0; i--) {
+    const currentValue = romanValues[s[i]];
+    if (currentValue >= prevValue) {
+      result += currentValue;
+    } else {
+      result -= currentValue;
+    }
+
+    prevValue = currentValue;
+  }
+
+  return result;
+};
+
 console.log(romanToInt("III"));
 console.log(romanToInt("LVIII"));
 console.log(romanToInt("IV"));
