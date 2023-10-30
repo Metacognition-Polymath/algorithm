@@ -26,21 +26,44 @@
  * 강의 해설
  * 이 문제는 이 다음에 나올 회의실 배정에서 사용할 그리디 같은 것을 이해하기 위해 풀어보는 문제입니다
  */
-function solution(arr) {
-  let answer = arr;
-  arr.sort((a, b) => {
-    if (a[0] === b[0]) return a[1] - b[1];
-    else return a[0] - b[0];
-  });
+// function solution(arr) {
+//   let answer = arr;
+//   arr.sort((a, b) => {
+//     if (a[0] === b[0]) return a[1] - b[1];
+//     else return a[0] - b[0];
+//   });
 
-  return answer;
+//   return answer;
+// }
+
+// let arr = [
+//   [2, 7],
+//   [1, 3],
+//   [1, 2],
+//   [2, 5],
+//   [3, 6],
+// ];
+// console.log(solution(arr));
+
+// 복습 1회차
+function solution(arr) {
+  const answer = [...arr];
+  return answer.sort((a, b) => {
+    const [xa, ya] = a;
+    const [xb, yb] = b;
+    if (xa === xb) {
+      return ya - yb;
+    }
+    return xa - xb;
+  });
 }
 
-let arr = [
-  [2, 7],
-  [1, 3],
-  [1, 2],
-  [2, 5],
-  [3, 6],
-];
-console.log(solution(arr));
+console.log(
+  solution([
+    [2, 7],
+    [1, 3],
+    [1, 2],
+    [2, 5],
+    [3, 6],
+  ])
+);
