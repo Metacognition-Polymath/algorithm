@@ -46,19 +46,33 @@
  * 강의 해설
  * 정렬을 하면 쉽게 풀리는 문제입니다
  */
+// function solution(arr) {
+//   let answer = [];
+//   let sortArr = arr.slice(); // 복사
+//   // sortArr.sort(); // 문자 기준으로 정렬해서 99가 더 작은데도 더 뒤로 감
+//   sortArr.sort((a, b) => a - b);
+//   for (let i = 0; i < arr.length; i++) {
+//     if (arr[i] !== sortArr[i]) {
+//       answer.push(i + 1);
+//     }
+//   }
+//   return answer;
+// }
+
+// let arr = [120, 125, 152, 130, 135, 135, 143, 127, 160];
+// // let arr = [120, 130, 150, 150, 130, 150];
+// console.log(solution(arr));
+
+// 복습 1회차
 function solution(arr) {
   let answer = [];
-  let sortArr = arr.slice(); // 복사
-  // sortArr.sort(); // 문자 기준으로 정렬해서 99가 더 작은데도 더 뒤로 감
-  sortArr.sort((a, b) => a - b);
+  const sortedArr = [...arr].sort((a, b) => a - b);
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] !== sortArr[i]) {
+    if (arr[i] !== sortedArr[i]) {
       answer.push(i + 1);
     }
   }
   return answer;
 }
 
-let arr = [120, 125, 152, 130, 135, 135, 143, 127, 160];
-// let arr = [120, 130, 150, 150, 130, 150];
-console.log(solution(arr));
+console.log(solution([120, 125, 152, 130, 135, 135, 143, 127, 160])); // 3 8
