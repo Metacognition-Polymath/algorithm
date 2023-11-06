@@ -97,40 +97,116 @@
  *
  * 이분 검색은 lt가 rt 보다 클 때 까지 계속 시도 하는 것이다
  */
-function count(songs, capacity) {
-  // 결정알고리즘은 여기가 제일 중요
-  let cnt = 1; // dvd 장수
-  let sum = 0; // 누적되는 용량
-  for (let x of songs) {
-    if (sum + x > capacity) {
-      // 누적이 용량보다 크면 dvd에 더 이상 저장할 수 없음
-      cnt++; // 새로운 dvd로 변경
-      sum = x; // 새로운 dvd에 그 값을 넣으면서 시작
-    } else {
-      sum += x;
-    }
-  }
+// function count(songs, capacity) {
+//   // 결정알고리즘은 여기가 제일 중요
+//   let cnt = 1; // dvd 장수
+//   let sum = 0; // 누적되는 용량
+//   for (let x of songs) {
+//     if (sum + x > capacity) {
+//       // 누적이 용량보다 크면 dvd에 더 이상 저장할 수 없음
+//       cnt++; // 새로운 dvd로 변경
+//       sum = x; // 새로운 dvd에 그 값을 넣으면서 시작
+//     } else {
+//       sum += x;
+//     }
+//   }
 
-  return cnt;
-}
+//   return cnt;
+// }
+// function solution(m, songs) {
+//   let answer;
+//   let lt = Math.max(...songs);
+//   let rt = songs.reduce((a, b) => a + b, 0); // 0으로 초기된 값에 누적한다
+
+//   // 이분 검색은 그냥 외우세요 ! -> while문 형태를
+//   while (lt <= rt) {
+//     let mid = parseInt((lt + rt) / 2);
+//     // mid 값을 dvd한장의 용량으로 했을 때 몇장만에 구하는지를 count 함수에서 구해야 함
+//     if (count(songs, mid) <= m) {
+//       // e.g. count() 함수의 리턴이 2인 경우 -> 용량이 충분히 크다 -> rt를 mid-1로 변경
+//       answer = mid;
+//       rt = mid - 1;
+//     } else {
+//       // 답은 될 수 없음 -> 용량이 적다
+//       lt = mid + 1;
+//     }
+//   }
+//   return answer;
+// }
+
+// let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// console.log(solution(3, arr));
+
+// 따라 써보기
+// function solution(m, songs) {
+//   let answer;
+//   let lt = Math.max(...songs); // 최소 dvd 용량 -> 숫자의 최대값
+//   let rt = songs.reduce((a, b) => a + b, 0); // 최대 dvd 용량 -> 모든 숫자의 합
+
+//   function countDvd(songs, capacity) {
+//     let dvdCount = 1;
+//     let sum = 0;
+//     for (let x of songs) {
+//       if (sum + x > capacity) {
+//         // 누적값이 용량보다 크면 dvd에 더 이상 저장할 수 없음
+//         dvdCount++; // 새로운 dvd로 변경
+//         sum = x; // 새로운 dvd에 그 값을 넣으면서 시작
+//       } else {
+//         sum += x;
+//       }
+//     }
+
+//     return dvdCount;
+//   }
+
+//   // 이분 검색
+//   while (lt <= rt) {
+//     let mid = parseInt((lt + rt) / 2);
+//     if (countDvd(songs, mid) <= m) {
+//       answer = mid;
+//       rt = mid - 1;
+//     } else {
+//       lt = mid + 1;
+//     }
+//   }
+
+//   return answer;
+// }
+
+// let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// console.log(solution(3, arr));
+
 function solution(m, songs) {
   let answer;
   let lt = Math.max(...songs);
-  let rt = songs.reduce((a, b) => a + b, 0); // 0으로 초기된 값에 누적한다
+  let rt = songs.reduce((a, b) => a + b, 0);
 
-  // 이분 검색은 그냥 외우세요 ! -> while문 형태를
+  // 전달한 dvd 용량으로 동영상을 몇 개의 그룹으로 나눌 수 있는지
+  function countDvd(songs, capacity) {
+    let dvdCount = 1;
+    let sum = 0;
+    for (let x of songs) {
+      if (sum + x > capacity) {
+        dvdCount++;
+        sum = x;
+      } else {
+        sum += x;
+      }
+    }
+
+    return dvdCount;
+  }
+
   while (lt <= rt) {
     let mid = parseInt((lt + rt) / 2);
-    // mid 값을 dvd한장의 용량으로 했을 때 몇장만에 구하는지를 count 함수에서 구해야 함
-    if (count(songs, mid) <= m) {
-      // e.g. count() 함수의 리턴이 2인 경우 -> 용량이 충분히 크다 -> rt를 mid-1로 변경
+    if (countDvd(songs, mid) <= m) {
       answer = mid;
       rt = mid - 1;
     } else {
-      // 답은 될 수 없음 -> 용량이 적다
       lt = mid + 1;
     }
   }
+
   return answer;
 }
 
