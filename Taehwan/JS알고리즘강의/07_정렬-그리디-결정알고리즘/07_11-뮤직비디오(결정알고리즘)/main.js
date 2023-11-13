@@ -176,39 +176,79 @@
 // let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 // console.log(solution(3, arr));
 
-function solution(m, songs) {
-  let answer;
-  let lt = Math.max(...songs);
-  let rt = songs.reduce((a, b) => a + b, 0);
+// function solution(m, songs) {
+//   let answer;
+//   let lt = Math.max(...songs);
+//   let rt = songs.reduce((a, b) => a + b, 0);
 
-  // 전달한 dvd 용량으로 동영상을 몇 개의 그룹으로 나눌 수 있는지
-  function countDvd(songs, capacity) {
-    let dvdCount = 1;
+//   // 전달한 dvd 용량으로 동영상을 몇 개의 그룹으로 나눌 수 있는지
+//   function countDvd(songs, capacity) {
+//     let dvdCount = 1;
+//     let sum = 0;
+//     for (let x of songs) {
+//       if (sum + x > capacity) {
+//         dvdCount++;
+//         sum = x;
+//       } else {
+//         sum += x;
+//       }
+//     }
+
+//     return dvdCount;
+//   }
+
+//   while (lt <= rt) {
+//     let mid = parseInt((lt + rt) / 2);
+//     if (countDvd(songs, mid) <= m) {
+//       answer = mid;
+//       rt = mid - 1;
+//     } else {
+//       lt = mid + 1;
+//     }
+//   }
+
+//   return answer;
+// }
+
+// let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// console.log(solution(3, arr));
+
+// 다시 풀어보기
+function solution2(dvdNumber, songs) {
+  const countDvDs = (songs, capacity) => {
+    let count = 1; // 초기 DVD 개수는 1
     let sum = 0;
+
     for (let x of songs) {
       if (sum + x > capacity) {
-        dvdCount++;
-        sum = x;
-      } else {
-        sum += x;
+        count++;
+        sum = 0;
       }
+      sum += x;
     }
 
-    return dvdCount;
-  }
+    return count;
+  };
 
-  while (lt <= rt) {
-    let mid = parseInt((lt + rt) / 2);
-    if (countDvd(songs, mid) <= m) {
-      answer = mid;
-      rt = mid - 1;
+  let dvdCapacity; // answer
+  let left = Math.max(...songs); // 이진 탐색의 시작 범위: 노래 중 가장 긴 길이
+  let right = songs.reduce((a, b) => a + b, 0); // 이진 탐색의 끝 범위 : 모든 노래의 길이 합
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (countDvDs(songs, mid) <= dvdNumber) {
+      // 현재 용량으로 dvdNumber개 이하의 dvd에 녹화할 수 있는 경우
+      dvdCapacity = mid; // 현재 용량을 정답 후보로 저장
+      right = mid - 1; // 더 작은 용량으로 이진 탐색
     } else {
-      lt = mid + 1;
+      // 현재 용량으로 dvdNumber개 보다 더 많은 dvd에 녹화해야 하는 경우
+      left = mid + 1; // 더 큰 용량으로 이진 탐색
     }
   }
 
-  return answer;
+  return dvdCapacity;
 }
 
-let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-console.log(solution(3, arr));
+let arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+console.log(solution2(3, arr2));
