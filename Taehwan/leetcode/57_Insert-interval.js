@@ -20,23 +20,47 @@
  * @param {number[]} newInterval
  * @return {number[][]}
  */
+// function insert(intervals, newInterval) {
+//   let result = []; // 결과를 담을 배열
+//   let i = 0; // 전역 인덱스
+//   let len = intervals.length;
+//   // intervals[i]의 end가 newInterval의 start보다 작으면 복사
+//   while (i < len && intervals[i][1] < newInterval[0]) {
+//     result.push(intervals[i]);
+//     i++;
+//   }
+//   // intervals[i]의 start가 newInterval의 end보다 작으면 병합
+//   while (i < len && intervals[i][0] <= newInterval[1]) {
+//     newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
+//     newInterval[1] = Math.max(intervals[i][1], newInterval[1]);
+//     i++;
+//   }
+//   result.push(newInterval);
+//   while (i < len) {
+//     result.push(intervals[i]);
+//     i++;
+//   }
+//   return result;
+// }
 function insert(intervals, newInterval) {
-  let result = []; // 결과를 담을 배열
-  let i = 0; // 전역 인덱스
-  let len = intervals.length;
+  const result = [];
+  let i = 0;
+  const length = intervals.length;
   // intervals[i]의 end가 newInterval의 start보다 작으면 복사
-  while (i < len && intervals[i][1] < newInterval[0]) {
+  while (i < length && intervals[i][1] < newInterval[0]) {
     result.push(intervals[i]);
     i++;
   }
   // intervals[i]의 start가 newInterval의 end보다 작으면 병합
-  while (i < len && intervals[i][0] <= newInterval[1]) {
-    newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
-    newInterval[1] = Math.max(intervals[i][1], newInterval[1]);
+  while (i < length && intervals[i][0] <= newInterval[1]) {
+    const start = Math.min(intervals[i][0], newInterval[0]);
+    const end = Math.max(intervals[i][1], newInterval[1]);
+    newInterval = [start, end];
     i++;
   }
   result.push(newInterval);
-  while (i < len) {
+  // 나머지 복사
+  while (i < length) {
     result.push(intervals[i]);
     i++;
   }
@@ -50,7 +74,7 @@ console.log(
     ],
     [2, 5]
   )
-);
+); // [[1,5],[6,9]]
 console.log(
   insert(
     [
@@ -62,4 +86,4 @@ console.log(
     ],
     [4, 8]
   )
-);
+); // [[1,2],[3,10],[12,16]]
