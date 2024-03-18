@@ -3,10 +3,12 @@
 50보다 작은 홀수라면 2를 곱합니다. 그 결과인 정수 배열을 return하는 solution을 완성해주세요.
 '''
 def solution(arr):
-  answer = []
-  for num in arr:
-    if num >= 50 & num % 2 == 0:
-      answer.insert(num / 2)
-    elif num < 50 & num % 2 == 1:
-      answer.insert(num * 2)
-  return answer
+    answer = []
+    for i in arr:
+        if i >= 50 and i % 2 == 0:
+            answer.append(i // 2)
+        elif i < 50 and i % 2 != 0:
+            answer.append(i * 2)
+        else:
+            answer.append(i)
+    return answer
